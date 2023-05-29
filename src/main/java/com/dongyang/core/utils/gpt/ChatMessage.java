@@ -1,4 +1,4 @@
-package com.dongyang.core.tools.gpt;
+package com.dongyang.core.utils.gpt;
 
 import lombok.*;
 

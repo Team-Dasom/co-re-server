@@ -22,6 +22,7 @@ logging:
             sql: trace
 
 gpt:
+  url: ${gpt-url}
   apikey: ${gpt-key}
   
 server:
