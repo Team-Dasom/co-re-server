@@ -1,6 +1,8 @@
-package com.dongyang.core.utils.gpt;
+package com.dongyang.core.service.gpt;
 
 import com.dongyang.core.controller.dto.request.GptRequestDto;
+import com.dongyang.core.controller.exception.model.OpenAIException;
+
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
@@ -13,7 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -22,16 +24,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Component
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-public class GptUtil {
+@Service
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+public class GptService {
     @Value("${gpt.apikey}")
     private String API_KEY;
 
     @Value("${gpt.url}")
     private String API_URL;
 
-    private final RestTemplate restTemplate = restTemplate();
+    private final RestTemplate restTemplate;
+
+    private final static String GPT_JSON_CHOICES_HEADER = "choices";
+    private final static int GPT_JSON_INDEX_OF_MESSAGE_HEADER = 0;
+    private final static String GPT_JSON_MESSAGE_HEADER = "message";
+    private final static String GPT_JSON_CONTENT_HEADER = "content";
+
 
     public String sendRequest(GptRequestDto requestDto) {
         try {
@@ -42,6 +50,12 @@ public class GptUtil {
         }
     }
 
+    private ResponseEntity<String> requestToGPT(String url, HttpEntity<Map<String, Object>> request) {
+        // postForEntity
+        // url: 요청 URL, request: requestData, String.class: 응답내용의 형태
+        return restTemplate.postForEntity(url, request, String.class);
+    }
+
     private HttpEntity<Map<String, Object>> createRequest(GptRequestDto requestDto) {
         // 질문에 대한 requestData 생성
         return new HttpEntity<>(
@@ -49,11 +63,11 @@ public class GptUtil {
                 createRequestHeader());
     }
 
-    private List<ChatMessage> createChatMessages(GptRequestDto requestDto) {
-        List<ChatMessage> chatMessages = new ArrayList<>();
-        chatMessages.add(ChatMessage.of("user", requestDto.getQuestion()));
+    private List<GptMessage> createChatMessages(GptRequestDto requestDto) {
+        List<GptMessage> gptMessages = new ArrayList<>();
+        gptMessages.add(GptMessage.of("user", requestDto.getQuestion()));
 
-        return chatMessages;
+        return gptMessages;
     }
 
     private HttpHeaders createRequestHeader() {
@@ -63,11 +77,6 @@ public class GptUtil {
         return headers;
     }
 
-    private ResponseEntity<String> requestToGPT(String url, HttpEntity<Map<String, Object>> request) {
-        // postForEntity
-        // url: 요청 URL, request: requestData, String.class: 응답내용의 형태
-        return restTemplate.postForEntity(url, request, String.class);
-    }
 
     private String parseGPTResponseContent(ResponseEntity<String> response) throws ParseException {
         String body = response.getBody();
@@ -75,19 +84,19 @@ public class GptUtil {
         JSONParser jsonParser = new JSONParser();
         JSONObject bodyJson = (JSONObject) jsonParser.parse(body);
 
-        JSONArray choicesJson = (JSONArray) bodyJson.get("choices");
+        JSONArray choicesJson = (JSONArray) bodyJson.get(GPT_JSON_CHOICES_HEADER);
 
-        JSONObject choiceJson = (JSONObject) choicesJson.get(0);
-        JSONObject messageJson = (JSONObject) choiceJson.get("message");
+        JSONObject choiceJson = (JSONObject) choicesJson.get(GPT_JSON_INDEX_OF_MESSAGE_HEADER);
+        JSONObject messageJson = (JSONObject) choiceJson.get(GPT_JSON_MESSAGE_HEADER);
 
-        return messageJson.get("content").toString();
+        return messageJson.get(GPT_JSON_CONTENT_HEADER).toString();
     }
 
-    private Map<String, Object> createRequestBody(List<ChatMessage> chatMessages) {
+    private Map<String, Object> createRequestBody(List<GptMessage> gptMessages) {
         Map<String, Object> requestBody = new HashMap<>();
 
         // 권한, 요청내용 담기
-        requestBody.put("messages", chatMessages);
+        requestBody.put("messages", gptMessages);
 
         // 요청에 사용될 모델 설정
         requestBody.put("model", "gpt-3.5-turbo");
@@ -110,16 +119,5 @@ public class GptUtil {
         restTemplate.setInterceptors(interceptors);
 
         return restTemplate;
-    }
-
-    public class OpenAIException extends RestClientException {
-        public OpenAIException(String message) {
-            super(message);
-        }
-
-        public OpenAIException(String message, Throwable cause) {
-            super(message, cause);
-        }
-
     }
 }

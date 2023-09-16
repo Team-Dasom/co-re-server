@@ -19,15 +19,25 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
-	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	//lombok
 	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	compileOnly 'org.projectlombok:lombok'
+
+	//jpa
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	//mysql
+	implementation 'mysql:mysql-connector-java:8.0.15'
+
+	//gpt
 	implementation 'com.theokanning.openai-gpt3-java:client:0.12.0'
+
+	//test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 }
 
