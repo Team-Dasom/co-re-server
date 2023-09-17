@@ -1,10 +1,10 @@
-package com.dongyang.core.service.gpt;
+package com.dongyang.core.external.gpt;
 
-import com.dongyang.core.controller.dto.request.GptRequestDto;
-import com.dongyang.core.controller.exception.model.OpenAIException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -15,18 +15,24 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.dongyang.core.external.gpt.request.GptQuestionRequest;
+import com.dongyang.core.controller.exception.model.OpenAIException;
+import com.dongyang.core.controller.dto.request.GptRequest;
+import com.dongyang.core.external.gpt.response.GptQuestionResponse;
 
-@Service
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Component
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class GptService {
+public class RestTemplateGptApiCaller implements GptApiCaller{
     @Value("${gpt.apikey}")
     private String API_KEY;
 
@@ -41,9 +47,9 @@ public class GptService {
     private final static String GPT_JSON_CONTENT_HEADER = "content";
 
 
-    public String sendRequest(GptRequestDto requestDto) {
+    public GptQuestionResponse sendRequest(GptQuestionRequest requestDto) {
         try {
-            return parseGPTResponseContent(requestToGPT(API_URL, createRequest(requestDto)));
+            return new GptQuestionResponse(parseGPTResponseContent(requestToGPT(API_URL, createRequest(requestDto))));
 
         } catch (RestClientException | ParseException e) {
             throw new OpenAIException("OpenAI API 호출 중 오류가 발생하였습니다.", e);
@@ -56,18 +62,18 @@ public class GptService {
         return restTemplate.postForEntity(url, request, String.class);
     }
 
-    private HttpEntity<Map<String, Object>> createRequest(GptRequestDto requestDto) {
+    private HttpEntity<Map<String, Object>> createRequest(GptQuestionRequest requestDto) {
         // 질문에 대한 requestData 생성
         return new HttpEntity<>(
                 createRequestBody(createChatMessages(requestDto)),
                 createRequestHeader());
     }
 
-    private List<GptMessage> createChatMessages(GptRequestDto requestDto) {
-        List<GptMessage> gptMessages = new ArrayList<>();
-        gptMessages.add(GptMessage.of("user", requestDto.getQuestion()));
+    private List<GptRequest> createChatMessages(GptQuestionRequest requestDto) {
+        List<GptRequest> gptRequests = new ArrayList<>();
+        gptRequests.add(GptRequest.of("user", requestDto.getQuestion()));
 
-        return gptMessages;
+        return gptRequests;
     }
 
     private HttpHeaders createRequestHeader() {
@@ -88,15 +94,16 @@ public class GptService {
 
         JSONObject choiceJson = (JSONObject) choicesJson.get(GPT_JSON_INDEX_OF_MESSAGE_HEADER);
         JSONObject messageJson = (JSONObject) choiceJson.get(GPT_JSON_MESSAGE_HEADER);
-
+        log.info(messageJson.toJSONString());
+        log.info("GPT request Response : {}", messageJson.get(GPT_JSON_CONTENT_HEADER).toString());
         return messageJson.get(GPT_JSON_CONTENT_HEADER).toString();
     }
 
-    private Map<String, Object> createRequestBody(List<GptMessage> gptMessages) {
+    private Map<String, Object> createRequestBody(List<GptRequest> gptRequests) {
         Map<String, Object> requestBody = new HashMap<>();
 
         // 권한, 요청내용 담기
-        requestBody.put("messages", gptMessages);
+        requestBody.put("messages", gptRequests);
 
         // 요청에 사용될 모델 설정
         requestBody.put("model", "gpt-3.5-turbo");
