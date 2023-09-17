@@ -10,5 +10,5 @@ spring:
     active: local
 
 gpt:
-  url: ${gpt-url}
+  uri: ${gpt-uri}
   apikey: ${gpt-key}
