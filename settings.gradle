@@ -1,1 +1,5 @@
-rootProject.name = 'co-re'
+rootProject.name = 'core-server'
+include 'core-api'
+include 'core-domain'
+include 'core-common'
+include 'core-external'
