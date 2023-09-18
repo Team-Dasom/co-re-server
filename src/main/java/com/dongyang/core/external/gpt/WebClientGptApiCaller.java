@@ -37,6 +37,12 @@ public class WebClientGptApiCaller implements GptApiCaller {
 	private final WebClient webClient;
 	private final ObjectMapper mapper;
 
+	private final String GPT_MODEL_NAME = "gpt-3.5-turbo";
+	private final String MODEL = "model";
+	private final String MAX_TOKENS = "max_tokens";
+	private final int MAX_TOKEN_VALUE = 100;
+	private final String MESSAGES = "messages";
+
 	@Value("${gpt.apikey}")
 	private String API_KEY;
 
@@ -68,13 +74,13 @@ public class WebClientGptApiCaller implements GptApiCaller {
 		Map<String, Object> requestBody = new HashMap<>();
 
 		// 권한, 요청내용 담기
-		requestBody.put("messages", gptRequests);
+		requestBody.put(MESSAGES, gptRequests);
 
 		// 요청에 사용될 모델 설정
-		requestBody.put("model", "gpt-3.5-turbo");
+		requestBody.put(MODEL, GPT_MODEL_NAME);
 
 		// 완료시 생성할 최대 토큰수
-		requestBody.put("max_tokens", 100);
+		requestBody.put(MAX_TOKENS, MAX_TOKEN_VALUE);
 		return requestBody;
 	}
 
