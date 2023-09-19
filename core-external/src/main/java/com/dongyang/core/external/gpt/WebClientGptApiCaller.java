@@ -1,9 +1,7 @@
 package com.dongyang.core.external.gpt;
 
-
-
-import static com.dongyang.core.common.constants.message.CommonErrorMessage.*;
 import static com.dongyang.core.common.constants.message.GptErrorMessage.*;
+import static com.dongyang.core.common.constants.message.WebClientErrorMessage.*;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,11 +16,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import com.dongyang.core.common.dto.request.GptQuestionRequest;
 import com.dongyang.core.common.exception.model.BadGatewayException;
 import com.dongyang.core.common.exception.model.ValidationException;
-import com.dongyang.core.external.gpt.dto.GptQuestionDto;
-import com.dongyang.core.external.gpt.dto.GptQuestionResponseDto;
+import com.dongyang.core.common.exception.model.WebClientException;
+import com.dongyang.core.external.dto.gpt.GptQuestionDto;
+import com.dongyang.core.external.dto.gpt.GptQuestionResponseDto;
+import com.dongyang.core.external.dto.gpt.GptRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -42,7 +41,6 @@ public class WebClientGptApiCaller implements GptApiCaller {
 	private final String GPT_MODEL_NAME = "gpt-3.5-turbo";
 	private final String MODEL = "model";
 	private final String MAX_TOKENS = "max_tokens";
-	private final int MAX_TOKEN_VALUE = 100;
 	private final String MESSAGES = "messages";
 
 	@Value("${gpt.apikey}")
@@ -52,8 +50,8 @@ public class WebClientGptApiCaller implements GptApiCaller {
 	private String API_URI;
 
 	@Override
-	public GptQuestionResponseDto sendRequest(GptQuestionRequest request) {
-		List<GptQuestionDto> question = Arrays.asList(GptQuestionDto.of("user", request.getQuestion()));
+	public GptQuestionResponseDto sendRequest(GptRequest request, int maxTokenValue) {
+		List<GptQuestionDto> question = Arrays.asList(GptQuestionDto.of("user", request.getContent()));
 
 		return webClient.post()
 			.uri(API_URI)
@@ -61,7 +59,7 @@ public class WebClientGptApiCaller implements GptApiCaller {
 				headers.setContentType(MediaType.APPLICATION_JSON);
 				headers.setBearerAuth(API_KEY);
 			})
-			.body(BodyInserters.fromValue(toJsonString(createRequestBody(question))))
+			.body(BodyInserters.fromValue(toJsonString(createRequestBody(question, maxTokenValue))))
 			.retrieve()
 			.onStatus(HttpStatusCode::is4xxClientError, clientResponse ->
 				Mono.error(new ValidationException(
@@ -69,10 +67,13 @@ public class WebClientGptApiCaller implements GptApiCaller {
 			.onStatus(HttpStatusCode::is5xxServerError, clientResponse ->
 				Mono.error(new BadGatewayException(GPT_INTERLOCK_ERROR_MESSAGE)))
 			.bodyToMono(GptQuestionResponseDto.class)
+			.doOnError(error -> {
+				throw new WebClientException(WEB_CLIENT_CONNECTION_ERROR_MESSAGE, error);
+			})
 			.block();
 	}
 
-	private Map<String, Object> createRequestBody(List<GptQuestionDto> gptRequests) {
+	private Map<String, Object> createRequestBody(List<GptQuestionDto> gptRequests, int maxTokenValue) {
 		Map<String, Object> requestBody = new HashMap<>();
 
 		// 권한, 요청내용 담기
@@ -82,7 +83,7 @@ public class WebClientGptApiCaller implements GptApiCaller {
 		requestBody.put(MODEL, GPT_MODEL_NAME);
 
 		// 완료시 생성할 최대 토큰수
-		requestBody.put(MAX_TOKENS, MAX_TOKEN_VALUE);
+		requestBody.put(MAX_TOKENS, maxTokenValue);
 		return requestBody;
 	}
 
@@ -91,7 +92,8 @@ public class WebClientGptApiCaller implements GptApiCaller {
 			log.info(mapper.writeValueAsString(body));
 			return mapper.writeValueAsString(body);
 		} catch (JsonProcessingException e) {
-			throw new com.dongyang.core.common.exception.model.JsonProcessingException(JSON_PROCESSING_ERROR_MESSAGE, e);
+			throw new com.dongyang.core.common.exception.model.JsonProcessingException(JSON_PROCESSING_ERROR_MESSAGE,
+				e);
 		}
 	}
 }

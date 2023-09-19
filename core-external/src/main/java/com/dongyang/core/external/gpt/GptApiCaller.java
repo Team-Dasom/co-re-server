@@ -1,9 +1,9 @@
 package com.dongyang.core.external.gpt;
 
-import com.dongyang.core.common.dto.request.GptQuestionRequest;
-import com.dongyang.core.external.gpt.dto.GptQuestionResponseDto;
+import com.dongyang.core.external.dto.gpt.GptQuestionResponseDto;
+import com.dongyang.core.external.dto.gpt.GptRequest;
 
 public interface GptApiCaller {
 
-	GptQuestionResponseDto sendRequest(GptQuestionRequest request);
+	GptQuestionResponseDto sendRequest(GptRequest request, int maxTokenValue);
 }

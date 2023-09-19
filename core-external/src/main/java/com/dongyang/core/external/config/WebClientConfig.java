@@ -32,7 +32,8 @@ public class WebClientConfig {
 							conn.addHandler(new ReadTimeoutHandler(20000, TimeUnit.MILLISECONDS))
 						)
 				)
-			)).build();
+			))
+			.build();
 	}
 
 }
