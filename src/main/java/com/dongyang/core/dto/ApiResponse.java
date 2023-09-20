@@ -12,19 +12,19 @@ import lombok.Getter;
 
 public class ApiResponse<T> {
 
-	private HttpStatus statusCode;
+	private HttpStatusCode statusCode;
 	private String message;
 	private T data;
 
-	public static <T> ApiResponse<T> success(HttpStatus status, T data) {
-		return new ApiResponse<>(status, "", data);
+	public static <T> ApiResponse<T> success(T data) {
+		return new ApiResponse<>(HttpStatus.OK, "", data);
 	}
 
-	public static <T> ApiResponse<T> success(HttpStatus status, String message, T data) {
-		return new ApiResponse<>(status, message, data);
+	public static <T> ApiResponse<T> success(String message, T data) {
+		return new ApiResponse<>(HttpStatus.OK, message, data);
 	}
 
-	public static <T> ApiResponse<T> success(HttpStatus status, String message) {
-		return new ApiResponse<>(status, message, null);
+	public static <T> ApiResponse<T> success(String message) {
+		return new ApiResponse<>(HttpStatus.OK, message, null);
 	}
 }
