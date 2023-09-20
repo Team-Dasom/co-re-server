@@ -1,4 +1,4 @@
-package com.dongyang.core.external.dto.gpt;
+package com.dongyang.core.common.dto.response;
 
 
 import lombok.AllArgsConstructor;
