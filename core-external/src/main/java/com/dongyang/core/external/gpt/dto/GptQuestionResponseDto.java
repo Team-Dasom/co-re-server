@@ -1,12 +1,10 @@
-package com.dongyang.core.external.dto.gpt;
+package com.dongyang.core.external.gpt.dto;
 
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-/*
-	JSON 구조를 객체로 편리하게 매핑하기 위하여 record 사용
- */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public record GptQuestionResponseDto(
 	String id,
 	String object,
