@@ -1,14 +1,25 @@
-plugins {
-	id 'org.springframework.boot' version '3.0.6'
+buildscript {
+	ext {
+		springBootVersion = '3.0.6'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath "io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE"
+	}
 }
 
-subprojects {
-	group = "com.dongyang"
+allprojects {}
 
+subprojects {
 	apply plugin: "java-library"
 	apply plugin: "org.springframework.boot"
 	apply plugin: "io.spring.dependency-management"
 
+	group = "com.dongyang"
+	version = '0.0.1'
 	sourceCompatibility = "17"
 
 	repositories {
@@ -21,9 +32,14 @@ subprojects {
 		//lombok
 		annotationProcessor 'org.projectlombok:lombok'
 		compileOnly 'org.projectlombok:lombok'
+		testCompileOnly 'org.projectlombok:lombok'
+		testAnnotationProcessor 'org.projectlombok:lombok'
 
 		//test
 		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+		testImplementation('org.springframework.boot:spring-boot-starter-test') {
+			exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+		}
 	}
 
 	configurations {
