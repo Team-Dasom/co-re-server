@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/api/gpt")
+@RequestMapping("/api/v1/gpt")
 public class GptController {
 	private final GptService gptService;
 
