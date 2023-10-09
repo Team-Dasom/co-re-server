@@ -6,15 +6,21 @@ spring:
     username: core
     password: core
 
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:sql/schema.sql
+      #data-locations: classpath:sql/data.sql
+
+
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
-        show-sql: true
+        show_sql: true
         format_sql: true
         default_batch_fetch_size: 1000
 
