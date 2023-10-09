@@ -11,11 +11,11 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
+        // TODO: 클라 측 path 확정되면 pathPattern 추가
         registry.addMapping("/**")
             .allowedOrigins("*")
             .allowedHeaders("*")
             .allowedMethods("OPTIONS", "GET", "POST", "PUT", "DELETE");
-
     }
 
 }
