@@ -12,3 +12,15 @@ spring:
 gpt:
   uri: ${gpt-uri}
   apikey: ${gpt-key}
+
+springdoc:
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  swagger-ui:
+    operationsSorter: alpha
+    tagsSorter: alpha
+    path: /swagger-ui.html
+    disable-swagger-default-url: true
+    docExpansion: none
+  paths-to-match:
+    - /api/**

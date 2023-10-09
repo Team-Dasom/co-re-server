@@ -1,4 +1,4 @@
-package com.dongyang.core.domain.gpt.controller;
+package com.dongyang.core.domain.gpt.api;
 
 import static com.dongyang.core.global.response.SuccessCode.*;
 
