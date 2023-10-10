@@ -10,8 +10,8 @@ spring:
     active: local
 
 gpt:
-  uri: ${gpt-uri}
-  apikey: ${gpt-key}
+  uri: ${GPT_API_URI}
+  apikey: ${GPT_API_KEY}
 
 springdoc:
   default-consumes-media-type: application/json
