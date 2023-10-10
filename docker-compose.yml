@@ -1,6 +1,7 @@
 version: '3'
 
 services:
+
   mysql:
     image: mysql/mysql-server:8.0
     container_name: core-mysql
