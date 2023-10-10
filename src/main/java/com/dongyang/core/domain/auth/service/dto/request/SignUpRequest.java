@@ -2,6 +2,7 @@ package com.dongyang.core.domain.auth.service.dto.request;
 
 import com.dongyang.core.domain.member.MemberSocialType;
 import com.dongyang.core.domain.member.dto.CreateMemberRequest;
+import com.dongyang.core.external.client.auth.github.dto.response.GithubProfileResponse;
 import com.dongyang.core.external.client.auth.kakao.dto.response.KakaoProfileResponse;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -30,5 +31,9 @@ public class SignUpRequest {
 
 	public CreateMemberRequest toCreateMemberDto(KakaoProfileResponse response) {
 		return CreateMemberRequest.of(response.getId(), socialType, response.getProperties().nickname, response.getProperties().thumbnail_image);
+	}
+
+	public CreateMemberRequest toCreateMemberDto(GithubProfileResponse response) {
+		return CreateMemberRequest.of(response.getId(), socialType, response.getLogin(), response.getAvatarUrl());
 	}
 }
