@@ -34,23 +34,24 @@ public class AuthController {
 	private final CreateTokenService createTokenService;
 	private final CommonAuthService commonAuthService;
 
-	@Operation(summary = "카카오 소셜 회원가입")
+	@Operation(summary = "OAuth2 소셜 회원가입")
 	@PostMapping("/auth/signup")
-	public ApiResponse<TokenResponse> signUp(@Valid @RequestBody SignUpRequest request) {
+	public ApiResponse<TokenResponse> kakaoSignUp(@Valid @RequestBody SignUpRequest request) {
 		AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
 		Long memberId = authService.signUp(request);
 		TokenResponse tokenInfo = createTokenService.createTokenInfo(memberId);
-		return ApiResponse.success(KAKAO_LOGIN_SUCCESS, tokenInfo);
+		return ApiResponse.success(OAUTH_LOGIN_SUCCESS, tokenInfo);
 	}
 
-	@Operation(summary = "카카오 소셜 로그인")
+	@Operation(summary = "OAuth2 소셜 로그인")
 	@PostMapping("/auth/login")
-	public ApiResponse<TokenResponse> login(@Valid @RequestBody LoginRequest request) {
+	public ApiResponse<TokenResponse> kakaoLogin(@Valid @RequestBody LoginRequest request) {
 		AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
 		Long memberId = authService.login(request);
 		TokenResponse tokenInfo = createTokenService.createTokenInfo(memberId);
-		return ApiResponse.success(KAKAO_LOGIN_SUCCESS, tokenInfo);
+		return ApiResponse.success(OAUTH_LOGIN_SUCCESS, tokenInfo);
 	}
+
 
 	@Operation(summary = "[인증] 로그아웃")
 	@Auth

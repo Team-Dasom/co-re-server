@@ -17,9 +17,9 @@ public class AuthErrorMessage {
 	public static String NEED_AUTH_ANNOTATION_ERROR_MESSAGE = "인증이 필요한 컨트롤러 입니다. @Auth 어노테이션을 붙여주세요.";
 	public static String CAN_NOT_GET_MEMBER_ID_ERROR_MESSAGE = "MEMBER_ID를 가져오지 못했습니다. (%s - %s)";
 
-	// Kakao Auth Error Message
-	public static String WRONG_KAKAO_ACCESS_TOKEN_ERROR_MESSAGE = "잘못된 카카오 액세스 토큰 (%s) 입니다.";
-	public static String KAKAO_LOGIN_ERROR_MESSAGE = "카카오 로그인 연동 중 에러가 발생하였습니다.";
+	// OAuth2 Error Message
+	public static String WRONG_OAUTH2_ACCESS_TOKEN_ERROR_MESSAGE = "잘못된 OAuth2 액세스 토큰 (%s) 입니다.";
+	public static String OAUTH2_LOGIN_ERROR_MESSAGE = "OAuth2 소셜 로그인 연동 중 에러가 발생하였습니다.";
 
 	// Admin Error Message
 	public static String ADMIN_ERROR_MESSAGE = "관리자에게만 허용된 요청입니다.";
