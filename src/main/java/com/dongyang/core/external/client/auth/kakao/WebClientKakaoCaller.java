@@ -28,9 +28,9 @@ public class WebClientKakaoCaller implements KakaoApiCaller {
 			.retrieve()
 			.onStatus(HttpStatusCode::is4xxClientError, clientResponse ->
 				Mono.error(new ValidationException(
-					MessageUtils.generate(WRONG_KAKAO_ACCESS_TOKEN_ERROR_MESSAGE, accessToken))))
+					MessageUtils.generate(WRONG_OAUTH2_ACCESS_TOKEN_ERROR_MESSAGE, accessToken))))
 			.onStatus(HttpStatusCode::is5xxServerError, clientResponse ->
-				Mono.error(new BadGatewayException(KAKAO_LOGIN_ERROR_MESSAGE)))
+				Mono.error(new BadGatewayException(OAUTH2_LOGIN_ERROR_MESSAGE)))
 			.bodyToMono(KakaoProfileResponse.class)
 			.block();
 	}
