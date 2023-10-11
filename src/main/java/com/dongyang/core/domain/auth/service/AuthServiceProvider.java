@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
+import com.dongyang.core.domain.auth.service.impl.GithubAuthService;
 import com.dongyang.core.domain.auth.service.impl.KakaoAuthService;
 import com.dongyang.core.domain.member.MemberSocialType;
 
@@ -19,10 +20,12 @@ public class AuthServiceProvider {
 	private static final Map<MemberSocialType, AuthService> authServiceMap = new HashMap<>();
 
 	private final KakaoAuthService kakaoAuthService;
+	private final GithubAuthService githubAuthService;
 
 	@PostConstruct
 	void initializeAuthServicesMap() {
 		authServiceMap.put(MemberSocialType.KAKAO, kakaoAuthService);
+		authServiceMap.put(MemberSocialType.GITHUB, githubAuthService);
 	}
 
 	public AuthService getAuthService(MemberSocialType socialType) {
