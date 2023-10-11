@@ -30,7 +30,7 @@ public class SignUpRequest {
 
 
 	public CreateMemberRequest toCreateMemberDto(KakaoProfileResponse response) {
-		return CreateMemberRequest.of(response.getId(), socialType, response.getProperties().nickname, response.getProperties().thumbnail_image);
+		return CreateMemberRequest.of(response.getId(), socialType, response.getProperties().nickname, response.getProperties().thumbnailImage);
 	}
 
 	public CreateMemberRequest toCreateMemberDto(GithubProfileResponse response) {
