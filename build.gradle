@@ -52,7 +52,7 @@ dependencies {
 	implementation 'com.theokanning.openai-gpt3-java:client:0.12.0'
 
 	// swagger
-	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 
 	//test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
