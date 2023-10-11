@@ -2,7 +2,7 @@ package com.dongyang.core.global.config.swagger;
 
 import java.util.Arrays;
 
-import org.springdoc.core.SpringDocUtils;
+import org.springdoc.core.utils.SpringDocUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
