@@ -14,8 +14,10 @@ import com.dongyang.core.external.gpt.dto.gpt.GptQuestionResponse;
 import com.dongyang.core.external.gpt.dto.gpt.GptRequest;
 import com.dongyang.core.global.response.ApiResponse;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
+@Tag(name = "Gpt")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/api/gpt")
