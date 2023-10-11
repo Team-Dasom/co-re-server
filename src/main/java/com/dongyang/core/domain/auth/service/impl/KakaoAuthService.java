@@ -8,7 +8,6 @@ import com.dongyang.core.domain.auth.service.dto.request.LoginRequest;
 import com.dongyang.core.domain.auth.service.dto.request.SignUpRequest;
 import com.dongyang.core.domain.member.Member;
 import com.dongyang.core.domain.member.MemberSocialType;
-import com.dongyang.core.domain.member.dto.CreateMemberRequest;
 import com.dongyang.core.domain.member.repository.MemberRepository;
 import com.dongyang.core.domain.member.service.MemberService;
 import com.dongyang.core.domain.member.service.MemberServiceUtils;
