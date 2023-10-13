@@ -27,7 +27,7 @@ public class GptController {
 	@PostMapping("/recommendVariableName")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<GptQuestionResponse> recommendVariableName(@RequestBody GptRequest request) {
-		return ApiResponse.success(RECOMMEND_VARIABLE_NAME_SUCCESS, gptService.recommendVariable(request));
+		return ApiResponse.success(RECOMMEND_VARIABLE_NAME_SUCCESS, gptService.recommendVariableName(request));
 	}
 
 	@PostMapping("/addComment")
