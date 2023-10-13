@@ -52,8 +52,7 @@ public class WebClientGptApiCaller implements GptApiCaller {
 	private String API_URI;
 
 	@Override
-	public GptQuestionResponseDto sendRequest(GptRequest request, int maxTokenValue) {
-		List<GptQuestionDto> question = Arrays.asList(GptQuestionDto.of("user", request.getContent()));
+	public GptQuestionResponseDto sendRequest(GptRequest request, List<GptMessage> gptMessages) {
 
 		return webClient.post()
 			.uri(API_URI)
@@ -75,17 +74,13 @@ public class WebClientGptApiCaller implements GptApiCaller {
 			.block();
 	}
 
-	private Map<String, Object> createRequestBody(List<GptQuestionDto> gptRequests, int maxTokenValue) {
+	private Map<String, Object> createRequestBody(List<GptMessage> gptMessages, GptRequest request) {
 		Map<String, Object> requestBody = new HashMap<>();
-
-		// 권한, 요청내용 담기
-		requestBody.put(MESSAGES, gptRequests);
-
-		// 요청에 사용될 모델 설정
+		requestBody.put(MESSAGES, gptMessages);
 		requestBody.put(MODEL, GPT_MODEL_NAME);
+		requestBody.put(MAX_TOKENS, request.getFunction().getMaxToken());
+		requestBody.put(TEMPERATURE, request.getFunction().getTemperature());
 
-		// 완료시 생성할 최대 토큰수
-		requestBody.put(MAX_TOKENS, maxTokenValue);
 		return requestBody;
 	}
 
