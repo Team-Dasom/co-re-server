@@ -1,10 +1,9 @@
 package com.dongyang.core.external.gpt;
 
-
+import static com.dongyang.core.domain.gpt.constant.GptConstant.*;
 import static com.dongyang.core.global.common.constants.message.GptErrorMessage.*;
 import static com.dongyang.core.global.common.constants.message.WebClientErrorMessage.*;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,11 +13,9 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
-
-import com.dongyang.core.external.gpt.dto.gpt.GptQuestionDto;
+import com.dongyang.core.external.gpt.dto.gpt.GptMessage;
 import com.dongyang.core.external.gpt.dto.gpt.GptQuestionResponseDto;
 import com.dongyang.core.external.gpt.dto.gpt.GptRequest;
 import com.dongyang.core.global.common.exception.model.BadGatewayException;
@@ -32,15 +29,9 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 @Component
 @Slf4j
-@Primary
 public class WebClientGptApiCaller implements GptApiCaller {
 
 	private final WebClient webClient;
-
-	private final String GPT_MODEL_NAME = "gpt-3.5-turbo";
-	private final String MODEL = "model";
-	private final String MAX_TOKENS = "max_tokens";
-	private final String MESSAGES = "messages";
 
 	@Value("${gpt.apikey}")
 	private String API_KEY;

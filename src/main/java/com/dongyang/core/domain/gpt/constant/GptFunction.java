@@ -1,4 +1,4 @@
-package com.dongyang.core.domain.gpt;
+package com.dongyang.core.domain.gpt.constant;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

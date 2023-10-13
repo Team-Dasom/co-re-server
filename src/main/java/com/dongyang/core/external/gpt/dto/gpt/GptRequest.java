@@ -1,6 +1,6 @@
 package com.dongyang.core.external.gpt.dto.gpt;
 
-import com.dongyang.core.domain.gpt.GptFunction;
+import com.dongyang.core.domain.gpt.constant.GptFunction;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
