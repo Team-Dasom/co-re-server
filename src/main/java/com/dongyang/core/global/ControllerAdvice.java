@@ -1,4 +1,4 @@
-package com.dongyang.core.global.common.exception;
+package com.dongyang.core.global;
 
 import static com.dongyang.core.global.response.ErrorCode.*;
 
@@ -21,6 +21,7 @@ import com.dongyang.core.global.common.exception.model.ConflictException;
 import com.dongyang.core.global.common.exception.model.ForbiddenException;
 import com.dongyang.core.global.common.exception.model.NotFoundException;
 import com.dongyang.core.global.common.exception.model.ValidationException;
+import com.dongyang.core.global.common.exception.model.WebClientException;
 import com.dongyang.core.global.response.ApiResponse;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
@@ -132,6 +133,13 @@ public class ControllerAdvice {
 	@ResponseStatus(HttpStatus.BAD_GATEWAY)
 	@ExceptionHandler(BadGatewayException.class)
 	protected ApiResponse<Object> handleBadGatewayException(final BadGatewayException exception) {
+		log.error(exception.getMessage(), exception);
+		return ApiResponse.error(BAD_GATEWAY_ERROR);
+	}
+
+	@ResponseStatus(HttpStatus.BAD_GATEWAY)
+	@ExceptionHandler(WebClientException.class)
+	protected ApiResponse<Object> handleWebClientException(final WebClientException exception) {
 		log.error(exception.getMessage(), exception);
 		return ApiResponse.error(BAD_GATEWAY_ERROR);
 	}

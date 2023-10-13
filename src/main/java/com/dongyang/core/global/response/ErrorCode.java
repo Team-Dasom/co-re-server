@@ -52,7 +52,7 @@ public enum ErrorCode {
 	/*
 		502- BAD GATEWAY
 	 */
-	BAD_GATEWAY_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "외부 연동 중 에러가 발생하였습니다."),
+	BAD_GATEWAY_ERROR(BAD_GATEWAY, "외부 연동 중 에러가 발생하였습니다."),
 
 	;
 
