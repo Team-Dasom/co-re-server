@@ -24,8 +24,6 @@ import com.dongyang.core.external.gpt.dto.gpt.GptRequest;
 import com.dongyang.core.global.common.exception.model.BadGatewayException;
 import com.dongyang.core.global.common.exception.model.ValidationException;
 import com.dongyang.core.global.common.exception.model.WebClientException;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +36,6 @@ import reactor.core.publisher.Mono;
 public class WebClientGptApiCaller implements GptApiCaller {
 
 	private final WebClient webClient;
-	private final ObjectMapper mapper;
 
 	private final String GPT_MODEL_NAME = "gpt-3.5-turbo";
 	private final String MODEL = "model";
@@ -60,7 +57,7 @@ public class WebClientGptApiCaller implements GptApiCaller {
 				headers.setContentType(MediaType.APPLICATION_JSON);
 				headers.setBearerAuth(API_KEY);
 			})
-			.body(BodyInserters.fromValue(toJsonString(createRequestBody(question, maxTokenValue))))
+			.bodyValue(createRequestBody(gptMessages, request))
 			.retrieve()
 			.onStatus(HttpStatusCode::is4xxClientError, clientResponse ->
 				Mono.error(new ValidationException(
@@ -82,15 +79,5 @@ public class WebClientGptApiCaller implements GptApiCaller {
 		requestBody.put(TEMPERATURE, request.getFunction().getTemperature());
 
 		return requestBody;
-	}
-
-	private String toJsonString(Map<String, Object> body) {
-		try {
-			log.info(mapper.writeValueAsString(body));
-			return mapper.writeValueAsString(body);
-		} catch (JsonProcessingException e) {
-			throw new com.dongyang.core.global.common.exception.model.JsonProcessingException(JSON_PROCESSING_ERROR_MESSAGE,
-				e);
-		}
 	}
 }
