@@ -7,12 +7,12 @@ import lombok.Getter;
 @Builder
 @Getter
 @AllArgsConstructor
-public class GptQuestionDto {
+public class GptMessage {
 	private String role;
 	private String content;
 
-	public static GptQuestionDto of(String role, String content) {
-		return GptQuestionDto.builder()
+	public static GptMessage of(String role, String content) {
+		return GptMessage.builder()
 			.role(role)
 			.content(content)
 			.build();
