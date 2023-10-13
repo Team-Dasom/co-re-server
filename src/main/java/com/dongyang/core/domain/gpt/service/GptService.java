@@ -20,7 +20,7 @@ public class GptService {
 		return new GptQuestionResponse(getContent(gptQuestionResponseDto));
 	}
 
-	public GptQuestionResponse recommendVariable(GptRequest request) {
+	public GptQuestionResponse recommendVariableName(GptRequest request) {
 		request.formatRequestRecommendVariableQuestion();
 		GptQuestionResponseDto gptQuestionResponseDto = gptApiCaller.sendRequest(request, 100);
 		return new GptQuestionResponse(getContent(gptQuestionResponseDto));
