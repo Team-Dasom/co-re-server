@@ -21,24 +21,27 @@ public class GptService {
 
 	private final GptApiCaller gptApiCaller;
 
-
 	public GptQuestionResponse recommendVariableName(GptRequest request) {
-
-		GptMessage systemMessage = GptMessage.of(MESSAGE_SYSTEM, String.format(request.getFunction().getSystemRoleMessage(), request.getLanguage()));
-		GptMessage userMessage = GptMessage.of(MESSAGE_USER, request.getContent());
-		List<GptMessage> messages = Arrays.asList(systemMessage, userMessage);
+		List<GptMessage> messages = generateMessages(
+			String.format(request.getFunction().getSystemRoleMessage(), request.getLanguage()), request.getContent());
 
 		GptQuestionResponseDto gptQuestionResponseDto = gptApiCaller.sendRequest(request, messages);
 		return new GptQuestionResponse(getContent(gptQuestionResponseDto));
 	}
 
 	public GptQuestionResponse addComment(GptRequest request) {
-		GptMessage systemMessage = GptMessage.of(MESSAGE_SYSTEM, String.format(request.getFunction().getSystemRoleMessage()));
-		GptMessage userMessage = GptMessage.of(MESSAGE_USER, request.formatAddCommentRequest());
-		List<GptMessage> messages = Arrays.asList(systemMessage, userMessage);
+		List<GptMessage> messages = generateMessages(String.format(request.getFunction().getSystemRoleMessage()),
+			request.formatAddCommentRequest());
 
 		GptQuestionResponseDto gptQuestionResponseDto = gptApiCaller.sendRequest(request, messages);
 		return new GptQuestionResponse(getContent(gptQuestionResponseDto));
+	}
+
+	private static List<GptMessage> generateMessages(String systemMessageText, String userMessageText) {
+		GptMessage systemMessage = GptMessage.of(MESSAGE_SYSTEM, systemMessageText);
+		GptMessage userMessage = GptMessage.of(MESSAGE_USER, userMessageText);
+
+		return Arrays.asList(systemMessage, userMessage);
 	}
 
 	private String getContent(GptQuestionResponseDto gptQuestionResponseDto) {
