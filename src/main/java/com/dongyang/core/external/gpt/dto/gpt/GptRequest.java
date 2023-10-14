@@ -26,7 +26,7 @@ public class GptRequest {
 	private String language;
 
 	public String formatAddCommentRequest() {
-		return language + " 언어로 개발된 코드\n" + content;
+		return String.format("%s 언어로 개발된 코드\n%s",language, content);
 	}
 
 	public String formatChangeLanguageRequest() {
