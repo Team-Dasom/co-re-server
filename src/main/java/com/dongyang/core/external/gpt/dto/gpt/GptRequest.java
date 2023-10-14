@@ -26,14 +26,14 @@ public class GptRequest {
 	private String language;
 
 	public String formatAddCommentRequest() {
-		return String.format("%s 언어로 개발된 코드\n%s",language, content);
+		return String.format("%s 언어로 개발된 코드이다.\n%s",language, content);
 	}
 
 	public String formatChangeLanguageRequest() {
-		return String.format("아래 코드를 %s언어로 변환해줘\n%s",language, content);
+		return String.format("아래 코드를 %s언어로 변환해줘.\n%s",language, content);
 	}
 
 	public String formatCodeRefactorRequest() {
-		return String.format("%s언어로 작성된 코드이다. 리팩토링 후 {{refactored code}\\n\\n{(comment sign)result summary}} 형태로 출력해라. 만약 입력받은 코드가 %s언어로 작성된 것이 아니라면 X를 출력해라\n%s", language, content, language);
+		return String.format("%s언어로 작성된 코드이다. 리팩토링 후 {변경된 코드}와 {변경 내용 요약 주석}을 출력해라. 만약 입력받은 코드가 %s언어로 작성된 코드가 아니라면 'X'만을 출력해라\n%s", language, language, content);
 	}
 }
