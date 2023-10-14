@@ -6,7 +6,9 @@ import org.springframework.http.HttpStatus;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum ErrorCode {
 	/*
@@ -64,7 +66,4 @@ public enum ErrorCode {
 		return httpStatus.value();
 	}
 
-	public String getMessage() {
-		return message;
-	}
 }
