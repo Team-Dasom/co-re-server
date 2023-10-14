@@ -18,6 +18,7 @@ public enum ErrorCode {
 	VALIDATION_EXCEPTION(BAD_REQUEST, "검증되지 않은 값 입니다."),
 	METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTION(BAD_REQUEST, "요청 값의 타입이 잘못되었습니다."),
 	INVALID_FORMAT_EXCEPTION(BAD_REQUEST, "요청 값이 유효하지 않은 데이터입니다."),
+	GPT_REQUEST_VALUE_EXCEPTION(BAD_REQUEST, "요청 값의 function, content, language가 매칭되지 않거나 문제가 있습니다."),
 
 	/*
 		403 - FORBIDDEN

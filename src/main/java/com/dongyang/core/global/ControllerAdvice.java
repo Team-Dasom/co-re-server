@@ -19,6 +19,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 import com.dongyang.core.global.common.exception.model.BadGatewayException;
 import com.dongyang.core.global.common.exception.model.ConflictException;
 import com.dongyang.core.global.common.exception.model.ForbiddenException;
+import com.dongyang.core.global.common.exception.model.GptRequestValueException;
 import com.dongyang.core.global.common.exception.model.NotFoundException;
 import com.dongyang.core.global.common.exception.model.ValidationException;
 import com.dongyang.core.global.common.exception.model.WebClientException;
@@ -74,6 +75,13 @@ public class ControllerAdvice {
 	protected ApiResponse<Object> handleValidationException(final ValidationException exception) {
 		log.error(exception.getMessage(), exception);
 		return ApiResponse.error(VALIDATION_EXCEPTION);
+	}
+
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(GptRequestValueException.class)
+	protected ApiResponse<Object> handleGptRequestValueException(final GptRequestValueException exception) {
+		log.error(exception.getMessage(), exception);
+		return ApiResponse.error(GPT_REQUEST_VALUE_EXCEPTION);
 	}
 
 	/**

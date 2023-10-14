@@ -1,6 +1,7 @@
 package com.dongyang.core.domain.gpt.service;
 
 import static com.dongyang.core.domain.gpt.constant.GptConstant.*;
+import static com.dongyang.core.global.common.constants.message.GptErrorMessage.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,6 +13,7 @@ import com.dongyang.core.external.gpt.dto.gpt.GptMessage;
 import com.dongyang.core.external.gpt.dto.gpt.GptQuestionResponse;
 import com.dongyang.core.external.gpt.dto.gpt.GptQuestionResponseDto;
 import com.dongyang.core.external.gpt.dto.gpt.GptRequest;
+import com.dongyang.core.global.common.exception.model.GptRequestValueException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,6 +57,7 @@ public class GptService {
 		return new GptQuestionResponse(getContent(gptQuestionResponseDto));
 	}
 
+
 	private static List<GptMessage> generateMessages(String systemMessageText, String userMessageText) {
 		GptMessage systemMessage = GptMessage.of(MESSAGE_SYSTEM, systemMessageText);
 		GptMessage userMessage = GptMessage.of(MESSAGE_USER, userMessageText);
@@ -63,6 +66,15 @@ public class GptService {
 	}
 
 	private String getContent(GptQuestionResponseDto gptQuestionResponseDto) {
-		return gptQuestionResponseDto.choices().get(0).message().content();
+		String response = gptQuestionResponseDto.choices().get(0).message().content();
+		validationRequestValue(response);
+
+		return response;
+	}
+
+	private void validationRequestValue(String gptQuestionResponse) {
+		if(gptQuestionResponse.equals(GPT_REQUEST_VALUE_ERROR_SIGN)) {
+			throw new GptRequestValueException(GPT_REQUEST_VALUE_ERROR_MESSAGE);
+		}
 	}
 }

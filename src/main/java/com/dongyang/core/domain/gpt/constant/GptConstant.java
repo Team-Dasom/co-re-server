@@ -9,4 +9,5 @@ public class GptConstant {
 	public final static String MAX_TOKENS = "max_tokens";
 	public final static String MESSAGES = "messages";
 	public final static String TEMPERATURE = "temperature";
+	public final static String GPT_REQUEST_VALUE_ERROR_SIGN = "X";
 }
