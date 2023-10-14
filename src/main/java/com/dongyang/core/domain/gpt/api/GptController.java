@@ -14,6 +14,7 @@ import com.dongyang.core.external.gpt.dto.gpt.GptQuestionResponse;
 import com.dongyang.core.external.gpt.dto.gpt.GptRequest;
 import com.dongyang.core.global.response.ApiResponse;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
@@ -24,12 +25,14 @@ import lombok.RequiredArgsConstructor;
 public class GptController {
 	private final GptService gptService;
 
+	@Operation(summary = "변수명 추천")
 	@PostMapping("/recommendVariableName")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<GptQuestionResponse> recommendVariableName(@RequestBody GptRequest request) {
 		return ApiResponse.success(RECOMMEND_VARIABLE_NAME_SUCCESS, gptService.recommendVariableName(request));
 	}
 
+	@Operation(summary = "설명 주석 추가")
 	@PostMapping("/addComment")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<GptQuestionResponse> addComment(@RequestBody GptRequest request) {
