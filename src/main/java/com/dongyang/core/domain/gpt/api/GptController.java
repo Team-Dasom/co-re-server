@@ -40,4 +40,11 @@ public class GptController {
 		return ApiResponse.success(ADD_COMMENT_SUCCESS, gptService.addComment(request));
 	}
 
+	@Operation(summary = "언어 변환")
+	@PostMapping("/gpt/changeLanguage")
+	@ResponseStatus(HttpStatus.OK)
+	public ApiResponse<GptQuestionResponse> changeLanguage(@Valid @RequestBody GptRequest request) {
+		return ApiResponse.success(CHANGE_LANGUAGE_SUCCESS, gptService.changeLanguage(request));
+	}
+
 }

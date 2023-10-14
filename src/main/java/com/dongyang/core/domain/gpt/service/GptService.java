@@ -14,8 +14,10 @@ import com.dongyang.core.external.gpt.dto.gpt.GptQuestionResponseDto;
 import com.dongyang.core.external.gpt.dto.gpt.GptRequest;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class GptService {
 
@@ -32,6 +34,14 @@ public class GptService {
 	public GptQuestionResponse addComment(GptRequest request) {
 		List<GptMessage> messages = generateMessages(String.format(request.getFunction().getSystemRoleMessage()),
 			request.formatAddCommentRequest());
+
+		GptQuestionResponseDto gptQuestionResponseDto = gptApiCaller.sendRequest(request, messages);
+		return new GptQuestionResponse(getContent(gptQuestionResponseDto));
+	}
+
+	public GptQuestionResponse changeLanguage(GptRequest request) {
+		List<GptMessage> messages = generateMessages(String.format(request.getFunction().getSystemRoleMessage()),
+			request.formatChangeLanguageRequest());
 
 		GptQuestionResponseDto gptQuestionResponseDto = gptApiCaller.sendRequest(request, messages);
 		return new GptQuestionResponse(getContent(gptQuestionResponseDto));
