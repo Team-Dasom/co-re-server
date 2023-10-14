@@ -13,7 +13,7 @@ import lombok.Getter;
 @Getter
 public class GptRequest {
 
-	@Schema(description = "요청 기능 선택", examples = {"ADD_COMMENT, RECOMMEND_VARIABLE_NAME"})
+	@Schema(description = "요청 기능 선택", examples = {"ADD_COMMENT", "RECOMMEND_VARIABLE_NAME", "CHANGE_LANGUAGE"})
 	@NotNull(message = "{gpt.function.notNull}")
 	private GptFunction function;
 
@@ -27,5 +27,9 @@ public class GptRequest {
 
 	public String formatAddCommentRequest() {
 		return language + " 언어로 개발된 코드\n" + content;
+	}
+
+	public String formatChangeLanguageRequest() {
+		return String.format("아래 코드를 %s언어로 변환해줘\n%s",language, content);
 	}
 }
