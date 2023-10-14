@@ -47,6 +47,14 @@ public class GptService {
 		return new GptQuestionResponse(getContent(gptQuestionResponseDto));
 	}
 
+	public GptQuestionResponse refactorCode(GptRequest request) {
+		List<GptMessage> messages = generateMessages(String.format(request.getFunction().getSystemRoleMessage()),
+			request.formatCodeRefactorRequest());
+
+		GptQuestionResponseDto gptQuestionResponseDto = gptApiCaller.sendRequest(request, messages);
+		return new GptQuestionResponse(getContent(gptQuestionResponseDto));
+	}
+
 	private static List<GptMessage> generateMessages(String systemMessageText, String userMessageText) {
 		GptMessage systemMessage = GptMessage.of(MESSAGE_SYSTEM, systemMessageText);
 		GptMessage userMessage = GptMessage.of(MESSAGE_USER, userMessageText);

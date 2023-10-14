@@ -47,4 +47,11 @@ public class GptController {
 		return ApiResponse.success(CHANGE_LANGUAGE_SUCCESS, gptService.changeLanguage(request));
 	}
 
+	@Operation(summary = "코드 리팩토링")
+	@PostMapping("/gpt/refactorCode")
+	@ResponseStatus(HttpStatus.OK)
+	public ApiResponse<GptQuestionResponse> code(@Valid @RequestBody GptRequest request) {
+		return ApiResponse.success(REFACTOR_CODE_SUCCESS, gptService.refactorCode(request));
+	}
+
 }
