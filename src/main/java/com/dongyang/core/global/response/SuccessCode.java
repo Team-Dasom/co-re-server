@@ -4,7 +4,9 @@ import org.springframework.http.HttpStatus;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
+@Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum SuccessCode {
 
@@ -30,7 +32,4 @@ public enum SuccessCode {
 		return httpStatus.value();
 	}
 
-	public String getMessage() {
-		return message;
-	}
 }
