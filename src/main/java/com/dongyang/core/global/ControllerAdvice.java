@@ -111,6 +111,7 @@ public class ControllerAdvice {
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
 	protected ApiResponse<Object> handleHttpRequestMethodNotSupportedException(
 		HttpRequestMethodNotSupportedException exception) {
+		log.error(exception.getMessage(), exception);
 		return ApiResponse.error(METHOD_NOT_ALLOWED_EXCEPTION);
 	}
 
