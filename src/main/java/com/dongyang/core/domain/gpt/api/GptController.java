@@ -22,19 +22,19 @@ import lombok.RequiredArgsConstructor;
 @Tag(name = "Gpt")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/v1/api/gpt")
+@RequestMapping("/api/v1")
 public class GptController {
 	private final GptService gptService;
 
 	@Operation(summary = "변수명 추천")
-	@PostMapping("/recommendVariableName")
+	@PostMapping("/gpt/recommendVariableName")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<GptQuestionResponse> recommendVariableName(@Valid @RequestBody GptRequest request) {
 		return ApiResponse.success(RECOMMEND_VARIABLE_NAME_SUCCESS, gptService.recommendVariableName(request));
 	}
 
 	@Operation(summary = "설명 주석 추가")
-	@PostMapping("/addComment")
+	@PostMapping("/gpt/addComment")
 	@ResponseStatus(HttpStatus.OK)
 	public ApiResponse<GptQuestionResponse> addComment(@Valid @RequestBody GptRequest request) {
 		return ApiResponse.success(ADD_COMMENT_SUCCESS, gptService.addComment(request));
