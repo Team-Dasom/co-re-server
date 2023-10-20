@@ -6,6 +6,7 @@ import static com.dongyang.core.global.common.constants.message.GptErrorMessage.
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.dongyang.core.external.gpt.GptApiCaller;
@@ -25,9 +26,10 @@ public class GptService {
 
 	private final GptApiCaller gptApiCaller;
 
+
 	public GptQuestionResponse recommendVariableName(GptRequest request) {
 		List<GptMessage> messages = generateMessages(
-			String.format(request.getFunction().getSystemRoleMessage(), request.getLanguage()), request.getContent());
+			String.format(request.getFunction().getSystemRoleMessage(), request.getLanguage(), request.getLanguage()), request.getContent());
 
 		GptQuestionResponseDto gptQuestionResponseDto = gptApiCaller.sendRequest(request, messages);
 		return new GptQuestionResponse(getContent(gptQuestionResponseDto));
