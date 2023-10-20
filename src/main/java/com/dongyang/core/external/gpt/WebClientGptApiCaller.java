@@ -65,7 +65,7 @@ public class WebClientGptApiCaller implements GptApiCaller {
 	private Map<String, Object> createRequestBody(List<GptMessage> gptMessages, GptRequest request) {
 		Map<String, Object> requestBody = new HashMap<>();
 		requestBody.put(MESSAGES, gptMessages);
-		requestBody.put(MODEL, GPT_MODEL_NAME);
+		requestBody.put(MODEL, request.getFunction().getModel());
 		requestBody.put(MAX_TOKENS, request.getFunction().getMaxToken());
 		requestBody.put(TEMPERATURE, request.getFunction().getTemperature());
 
