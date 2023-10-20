@@ -1,13 +1,9 @@
 package com.dongyang.core.domain.gpt.service;
 
-import static com.dongyang.core.domain.gpt.constant.GptConstant.*;
-import static com.dongyang.core.global.common.constants.message.GptErrorMessage.*;
-
-import java.util.Arrays;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import static com.dongyang.core.domain.gpt.constant.GptConstant.GPT_REQUEST_VALUE_ERROR_SIGN;
+import static com.dongyang.core.domain.gpt.constant.GptConstant.MESSAGE_SYSTEM;
+import static com.dongyang.core.domain.gpt.constant.GptConstant.MESSAGE_USER;
+import static com.dongyang.core.global.common.constants.message.GptErrorMessage.GPT_REQUEST_VALUE_ERROR_MESSAGE;
 
 import com.dongyang.core.external.gpt.GptApiCaller;
 import com.dongyang.core.external.gpt.dto.gpt.GptMessage;
@@ -15,9 +11,11 @@ import com.dongyang.core.external.gpt.dto.gpt.GptQuestionResponse;
 import com.dongyang.core.external.gpt.dto.gpt.GptQuestionResponseDto;
 import com.dongyang.core.external.gpt.dto.gpt.GptRequest;
 import com.dongyang.core.global.common.exception.model.GptRequestValueException;
-
+import java.util.Arrays;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
@@ -36,7 +34,7 @@ public class GptService {
 	}
 
 	public GptQuestionResponse addComment(GptRequest request) {
-		List<GptMessage> messages = generateMessages(String.format(request.getFunction().getSystemRoleMessage()),
+		List<GptMessage> messages = generateMessages(String.format(request.getFunction().getSystemRoleMessage(), request.getLanguage(), request.getLanguage(), request.getLanguage()),
 			request.formatAddCommentRequest());
 
 		GptQuestionResponseDto gptQuestionResponseDto = gptApiCaller.sendRequest(request, messages);
@@ -52,7 +50,7 @@ public class GptService {
 	}
 
 	public GptQuestionResponse refactorCode(GptRequest request) {
-		List<GptMessage> messages = generateMessages(String.format(request.getFunction().getSystemRoleMessage()),
+		List<GptMessage> messages = generateMessages(String.format(request.getLanguage(), request.getLanguage(), request.getLanguage(), request.getLanguage(), request.getLanguage()),
 			request.formatCodeRefactorRequest());
 
 		GptQuestionResponseDto gptQuestionResponseDto = gptApiCaller.sendRequest(request, messages);
