@@ -34,6 +34,6 @@ public class GptRequest {
 	}
 
 	public String formatCodeRefactorRequest() {
-		return String.format("%s언어로 작성된 코드이다. 리팩토링 후 {변경된 코드}와 {변경 내용 요약 주석}을 출력해라. 만약 입력받은 코드가 %s언어로 작성된 코드가 아니라면 'X'만을 출력해라\n%s", language, language, content);
+		return content;
 	}
 }

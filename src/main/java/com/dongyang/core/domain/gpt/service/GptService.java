@@ -50,7 +50,7 @@ public class GptService {
 	}
 
 	public GptQuestionResponse refactorCode(GptRequest request) {
-		List<GptMessage> messages = generateMessages(String.format(request.getLanguage(), request.getLanguage(), request.getLanguage(), request.getLanguage(), request.getLanguage()),
+		List<GptMessage> messages = generateMessages(String.format(request.getFunction().getSystemRoleMessage(), request.getLanguage(), request.getLanguage(), request.getLanguage(), request.getLanguage()),
 			request.formatCodeRefactorRequest());
 
 		GptQuestionResponseDto gptQuestionResponseDto = gptApiCaller.sendRequest(request, messages);
@@ -78,3 +78,5 @@ public class GptService {
 		}
 	}
 }
+
+
