@@ -1,4 +1,4 @@
-# 💻 코리(Co:RE) : 개발자를 위한 GPT 활용 도우미 `[개발중]`
+# 💻 코리(Co:RE) : 개발자를 위한 GPT 활용 도우미 `[개발중]`123
 > 2023 동양미래대학교 졸업작품
 
 <img src="https://github.com/Team-Dasom/co-re-server/assets/84304802/e52d7cfe-05fa-4000-8028-10645bf95223" width="500" height="160"/>
