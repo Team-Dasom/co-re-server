@@ -12,6 +12,10 @@ spring:
 gpt:
   uri: ${GPT_API_URI}
   apikey: ${GPT_API_KEY}
+  model:
+    recommend-variable-name: ${GPT_RECOMMEND_VARIABLE_NAME_MODEL}
+    add-comment: ${GPT_ADD_COMMENT_MODEL}
+    refactor-code: ${GPT_REFACTOR_CODE_MODEL}
 
 springdoc:
   default-consumes-media-type: application/json
