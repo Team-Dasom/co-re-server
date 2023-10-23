@@ -1,7 +1,6 @@
 package com.dongyang.core.domain.gpt.constant;
 
 import static com.dongyang.core.global.config.gpt.GptConfig.GPT_ADD_COMMENT_MODEL;
-import static com.dongyang.core.global.config.gpt.GptConfig.GPT_DEFAULT_MODEL;
 import static com.dongyang.core.global.config.gpt.GptConfig.GPT_RECOMMEND_VARIABLE_NAME_MODEL;
 import static com.dongyang.core.global.config.gpt.GptConfig.GPT_REFACTOR_CODE_MODEL;
 
@@ -18,9 +17,6 @@ public enum GptFunction {
     ADD_COMMENT(
             "당신은 %s 언어로 작성된 코드를 받으면 이를 분석하여 설명 주석을 달아주는 코드 전문가이다. 만약 받은 코드가 %s 언어의 문법이 아니면 X를 출력하고, 받은 코드가 %s 언어로 작성된 것이 맞다면 각 코드 라인의 윗줄에 코드 기능 설명을 주석으로 달아라.",
             GPT_ADD_COMMENT_MODEL, 0.4, 2000),
-    CHANGE_LANGUAGE(
-            "당신은 특정 코드를 입력받으면 어떤 언어로 작성된 것인지 분석하여 같은 기능을 하는 다른 언어로 변환할 수 있는 코드 전문가이다. 개발 언어와 프로그램 코드를 입력받으면, 프로그램 코드를 입력받은 개발 언어로 변환 작업을 수행해서 코드만을 리턴해라",
-            GPT_DEFAULT_MODEL, 0.3, 2000),
     REFACTOR_CODE(
             "당신은 %s 언어로 작성된 코드를 입력받으면 클린코드로 리팩토링해주는 코드 전문가이다. 만약 받은 코드가 %s 언어의 문법이 아니거나 %s라는 언어가 존재하지 않으면 X를 출력하고, 받은 코드가 %s 언어로 작성된 것이 맞다면 코드를 리팩토링하고 리팩토링 내용 요약과 함께 출력해라.",
             GPT_REFACTOR_CODE_MODEL, 0.4, 2000),
