@@ -35,15 +35,7 @@ public class GptService {
 
 	public GptQuestionResponse addComment(GptRequest request) {
 		List<GptMessage> messages = generateMessages(String.format(request.getFunction().getSystemRoleMessage(), request.getLanguage(), request.getLanguage(), request.getLanguage()),
-			request.formatAddCommentRequest());
-
-		GptQuestionResponseDto gptQuestionResponseDto = gptApiCaller.sendRequest(request, messages);
-		return new GptQuestionResponse(getContent(gptQuestionResponseDto));
-	}
-
-	public GptQuestionResponse changeLanguage(GptRequest request) {
-		List<GptMessage> messages = generateMessages(String.format(request.getFunction().getSystemRoleMessage()),
-			request.formatChangeLanguageRequest());
+			request.getContent());
 
 		GptQuestionResponseDto gptQuestionResponseDto = gptApiCaller.sendRequest(request, messages);
 		return new GptQuestionResponse(getContent(gptQuestionResponseDto));
@@ -51,7 +43,7 @@ public class GptService {
 
 	public GptQuestionResponse refactorCode(GptRequest request) {
 		List<GptMessage> messages = generateMessages(String.format(request.getFunction().getSystemRoleMessage(), request.getLanguage(), request.getLanguage(), request.getLanguage(), request.getLanguage()),
-			request.formatCodeRefactorRequest());
+			request.getContent());
 
 		GptQuestionResponseDto gptQuestionResponseDto = gptApiCaller.sendRequest(request, messages);
 		return new GptQuestionResponse(getContent(gptQuestionResponseDto));

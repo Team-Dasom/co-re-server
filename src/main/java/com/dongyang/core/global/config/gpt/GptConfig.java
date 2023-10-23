@@ -9,7 +9,6 @@ public class GptConfig {
     public static String GPT_RECOMMEND_VARIABLE_NAME_MODEL;
     public static String GPT_ADD_COMMENT_MODEL;
     public static String GPT_REFACTOR_CODE_MODEL;
-    public final static String GPT_DEFAULT_MODEL = "gpt-3.5-turbo";
 
     @Value("${gpt.model.recommend-variable-name}")
     public void setGptRecommendVariableNameModel(String value) {
