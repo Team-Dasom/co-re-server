@@ -1,28 +1,29 @@
 package com.dongyang.core.external.gpt;
 
-import static com.dongyang.core.domain.gpt.constant.GptConstant.*;
-import static com.dongyang.core.global.common.constants.message.GptErrorMessage.*;
-import static com.dongyang.core.global.common.constants.message.WebClientErrorMessage.*;
+import static com.dongyang.core.domain.gpt.constant.GptConstant.MAX_TOKENS;
+import static com.dongyang.core.domain.gpt.constant.GptConstant.MESSAGES;
+import static com.dongyang.core.domain.gpt.constant.GptConstant.MODEL;
+import static com.dongyang.core.domain.gpt.constant.GptConstant.TEMPERATURE;
+import static com.dongyang.core.global.common.constants.message.GptErrorMessage.GPT_INTERLOCK_ERROR_MESSAGE;
+import static com.dongyang.core.global.common.constants.message.GptErrorMessage.WRONG_GPT_ACCESS_ERROR_MESSAGE;
+import static com.dongyang.core.global.common.constants.message.WebClientErrorMessage.WEB_CLIENT_CONNECTION_ERROR_MESSAGE;
 
+import com.dongyang.core.domain.gpt.constant.GptFunction;
+import com.dongyang.core.external.gpt.dto.gpt.GptMessage;
+import com.dongyang.core.external.gpt.dto.gpt.GptQuestionResponseDto;
+import com.dongyang.core.global.common.exception.model.BadGatewayException;
+import com.dongyang.core.global.common.exception.model.ValidationException;
+import com.dongyang.core.global.common.exception.model.WebClientException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import com.dongyang.core.external.gpt.dto.gpt.GptMessage;
-import com.dongyang.core.external.gpt.dto.gpt.GptQuestionResponseDto;
-import com.dongyang.core.external.gpt.dto.gpt.GptRequest;
-import com.dongyang.core.global.common.exception.model.BadGatewayException;
-import com.dongyang.core.global.common.exception.model.ValidationException;
-import com.dongyang.core.global.common.exception.model.WebClientException;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
@@ -39,7 +40,7 @@ public class WebClientGptApiCaller implements GptApiCaller {
 	private String API_URI;
 
 	@Override
-	public GptQuestionResponseDto sendRequest(GptRequest request, List<GptMessage> gptMessages) {
+	public GptQuestionResponseDto sendRequest(GptFunction gptFunction, List<GptMessage> gptMessages) {
 
 		return webClient.post()
 			.uri(API_URI)
@@ -47,7 +48,7 @@ public class WebClientGptApiCaller implements GptApiCaller {
 				headers.setContentType(MediaType.APPLICATION_JSON);
 				headers.setBearerAuth(API_KEY);
 			})
-			.bodyValue(createRequestBody(gptMessages, request))
+			.bodyValue(createRequestBody(gptMessages, gptFunction))
 			.retrieve()
 			.onStatus(HttpStatusCode::is4xxClientError, clientResponse ->
 				Mono.error(new ValidationException(
@@ -61,12 +62,12 @@ public class WebClientGptApiCaller implements GptApiCaller {
 			.block();
 	}
 
-	private Map<String, Object> createRequestBody(List<GptMessage> gptMessages, GptRequest request) {
+	private Map<String, Object> createRequestBody(List<GptMessage> gptMessages, GptFunction gptFunction) {
 		Map<String, Object> requestBody = new HashMap<>();
 		requestBody.put(MESSAGES, gptMessages);
-		requestBody.put(MODEL, request.getFunction().getModel());
-		requestBody.put(MAX_TOKENS, request.getFunction().getMaxToken());
-		requestBody.put(TEMPERATURE, request.getFunction().getTemperature());
+		requestBody.put(MODEL, gptFunction.getModel());
+		requestBody.put(MAX_TOKENS, gptFunction.getMaxToken());
+		requestBody.put(TEMPERATURE, gptFunction.getTemperature());
 
 		return requestBody;
 	}

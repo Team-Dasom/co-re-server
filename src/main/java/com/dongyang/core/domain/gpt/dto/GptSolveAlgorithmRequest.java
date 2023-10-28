@@ -1,4 +1,4 @@
-package com.dongyang.core.external.gpt.dto.gpt;
+package com.dongyang.core.domain.gpt.dto;
 
 import com.dongyang.core.domain.gpt.constant.GptFunction;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -10,18 +10,26 @@ import lombok.Getter;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public class GptRequest {
+public class GptSolveAlgorithmRequest {
 
-    @Schema(description = "요청 기능 선택", examples = {"ADD_COMMENT", "RECOMMEND_VARIABLE_NAME", "REFACTOR_CODE"})
+    @Schema(description = "요청 기능 선택", example = "SOLVE_ALGORITHM")
     @NotNull(message = "{gpt.function.notNull}")
     private GptFunction function;
 
-    @Schema(description = "기능에 따른 요청 내용")
+    @Schema(description = "알고리즘 문제 플랫폼")
     @NotBlank(message = "{gpt.content.notBlank}")
-    private String content;
+    private String platform;
+
+    @Schema(description = "문제 정보")
+    @NotBlank(message = "{gpt.content.notBlank}")
+    private String problem;
 
     @Schema(description = "요청 언어", example = "python")
     @NotBlank(message = "{gpt.language.notBlank}")
     private String language;
 
+
+    public String createUserMessageText() {
+        return String.format("%s 언어로 %s 문제 풀고 설명해줘", language, problem);
+    }
 }
