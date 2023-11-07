@@ -44,6 +44,9 @@ http://13.125.151.72/swagger-ui/index.html
 - Nginx
 - JWT
 - Springdoc Swagger
+
+### AI Model
+- GPT 3.5 Turbo
   
 ### DB
 - MySQL 8.0
