@@ -134,7 +134,7 @@ public class ControllerAdvice {
     @ExceptionHandler(ConflictException.class)
     protected ApiResponse<Object> handleConflictException(final ConflictException exception) {
         log.error(exception.getMessage(), exception);
-        return ApiResponse.error(CONFLICT_EXCEPTION);
+        return ApiResponse.error(exception.getErrorCode());
     }
 
     /**

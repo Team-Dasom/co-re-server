@@ -51,6 +51,7 @@ public enum ErrorCode {
 	*/
 	CONFLICT_EXCEPTION(CONFLICT, "데이터를 처리하는 과정에서 충돌이 발생하였습니다."),
 	CONFLICT_MEMBER_EXCEPTION(CONFLICT, "이미 존재하는 회원입니다."),
+	CONFLICT_FAVORITE_ERROR(CONFLICT, "이미 즐겨찾기에 존재하는 응답 내용입니다."),
 
 	/*
 		415 - UN SUPPORTED MEDIA TYPE
