@@ -1,7 +1,9 @@
 package com.dongyang.core.external.client.auth.kakao;
 
 import static com.dongyang.core.global.common.constants.message.AuthErrorMessage.*;
+import static com.dongyang.core.global.response.ErrorCode.INVALID_OAUTH2_TOKEN_ERROR;
 
+import com.dongyang.core.global.response.ErrorCode;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -28,9 +30,10 @@ public class WebClientKakaoCaller implements KakaoApiCaller {
 			.retrieve()
 			.onStatus(HttpStatusCode::is4xxClientError, clientResponse ->
 				Mono.error(new ValidationException(
-					MessageUtils.generate(WRONG_OAUTH2_ACCESS_TOKEN_ERROR_MESSAGE, accessToken))))
+					MessageUtils.generate(WRONG_OAUTH2_ACCESS_TOKEN_ERROR_MESSAGE, accessToken),
+						INVALID_OAUTH2_TOKEN_ERROR)))
 			.onStatus(HttpStatusCode::is5xxServerError, clientResponse ->
-				Mono.error(new BadGatewayException(OAUTH2_LOGIN_ERROR_MESSAGE)))
+				Mono.error(new BadGatewayException(OAUTH2_LOGIN_ERROR_MESSAGE, ErrorCode.OAUTH2_BAD_GATEWAY_ERROR)))
 			.bodyToMono(KakaoProfileResponse.class)
 			.block();
 	}

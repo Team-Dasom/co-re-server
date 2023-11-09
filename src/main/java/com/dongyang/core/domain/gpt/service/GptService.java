@@ -12,6 +12,7 @@ import com.dongyang.core.external.gpt.dto.gpt.GptMessage;
 import com.dongyang.core.external.gpt.dto.gpt.GptQuestionResponse;
 import com.dongyang.core.external.gpt.dto.gpt.GptQuestionResponseDto;
 import com.dongyang.core.global.common.exception.model.GptRequestValueException;
+import com.dongyang.core.global.response.ErrorCode;
 import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -82,7 +83,7 @@ public class GptService {
 
     private void validationRequestValue(String gptQuestionResponse) {
         if (gptQuestionResponse.equals(GPT_REQUEST_VALUE_ERROR_SIGN)) {
-            throw new GptRequestValueException(GPT_REQUEST_VALUE_ERROR_MESSAGE);
+            throw new GptRequestValueException(GPT_REQUEST_VALUE_ERROR_MESSAGE, ErrorCode.GPT_REQUEST_VALUE_EXCEPTION);
         }
     }
 }

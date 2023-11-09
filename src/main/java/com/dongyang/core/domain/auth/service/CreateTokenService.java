@@ -3,6 +3,7 @@ package com.dongyang.core.domain.auth.service;
 
 import static com.dongyang.core.global.common.constants.message.AuthErrorMessage.*;
 
+import com.dongyang.core.global.response.ErrorCode;
 import java.util.List;
 import java.util.Objects;
 
@@ -43,17 +44,18 @@ public class CreateTokenService {
 		Member member = MemberServiceUtils.findMemberById(memberRepository, memberId);
 		if (!jwtUtils.validateToken(request.getRefreshToken())) {
 			throw new UnAuthorizedException(
-				MessageUtils.generate(INVALID_JWT_REFRESH_TOKEN_ERROR_MESSAGE, request.getRefreshToken()));
+				MessageUtils.generate(INVALID_JWT_REFRESH_TOKEN_ERROR_MESSAGE, request.getRefreshToken()),
+					ErrorCode.JWT_UNAUTHORIZED_ERROR);
 		}
 		String refreshToken = (String)redisTemplate.opsForValue().get(RedisKey.REFRESH_TOKEN + memberId);
 		if (Objects.isNull(refreshToken)) {
 			throw new UnAuthorizedException(
-				MessageUtils.generate(EXPIRED_JWT_REFRESH_TOKEN_ERROR_MESSAGE, request.getRefreshToken()));
+				MessageUtils.generate(EXPIRED_JWT_REFRESH_TOKEN_ERROR_MESSAGE, request.getRefreshToken()), ErrorCode.JWT_UNAUTHORIZED_ERROR);
 		}
 		if (!refreshToken.equals(request.getRefreshToken())) {
 			jwtUtils.expireRefreshToken(member.getId());
 			throw new UnAuthorizedException(
-				MessageUtils.generate(WRONG_JWT_REFRESH_TOKEN_ERROR_MESSAGE, request.getRefreshToken()));
+				MessageUtils.generate(WRONG_JWT_REFRESH_TOKEN_ERROR_MESSAGE, request.getRefreshToken()), ErrorCode.JWT_UNAUTHORIZED_ERROR);
 		}
 		List<String> tokens = jwtUtils.createTokenInfo(memberId);
 		return TokenResponse.of(tokens.get(0), tokens.get(1));

@@ -2,6 +2,7 @@ package com.dongyang.core.global.common.interceptor.admin;
 
 import static com.dongyang.core.global.common.constants.message.AuthErrorMessage.*;
 
+import com.dongyang.core.global.response.ErrorCode;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -30,7 +31,7 @@ public class AdminCheckHandler {
 				return;
 			}
 		}
-		throw new ForbiddenException(ADMIN_ERROR_MESSAGE);
+		throw new ForbiddenException(ADMIN_ERROR_MESSAGE, ErrorCode.ADMIN_UNAUTHORIZED_ERROR);
 	}
 
 	private boolean hasAdminAuthority(String accessToken) {
