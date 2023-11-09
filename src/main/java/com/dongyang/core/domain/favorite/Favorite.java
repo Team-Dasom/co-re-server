@@ -54,6 +54,9 @@ public class Favorite extends BaseEntity {
     @Column(name = "QUESTIONED_AT", nullable = false)
     private LocalDateTime questionedAt;
 
+    @Column(name = "IS_FAVORITE", nullable = false)
+    private Boolean isFavorite;
+
 
     public static Favorite newInstance(Member member, AddFavoriteRequest request) {
         return Favorite.builder()
@@ -62,6 +65,11 @@ public class Favorite extends BaseEntity {
                 .question(request.getQuestion())
                 .answer(request.getAnswer())
                 .questionedAt(request.getQuestionedAt())
+                .isFavorite(true)
                 .build();
+    }
+
+    public void changeFavoriteState() {
+        this.isFavorite = !isFavorite;
     }
 }

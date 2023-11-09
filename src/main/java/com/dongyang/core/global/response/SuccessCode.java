@@ -19,12 +19,12 @@ public enum SuccessCode {
     OAUTH_LOGIN_SUCCESS(HttpStatus.OK, "소셜 OAuth2 로그인 성공"),
     LOGOUT_SUCCESS(HttpStatus.OK, "로그아웃 성공"),
     JWT_TOKEN_REISSUE_SUCCESS(HttpStatus.OK, "JWT 토큰 갱신 성공"),
+    ADD_FAVORITE_SUCCESS(HttpStatus.CREATED, "즐겨찾기 상태 변경 성공");
 
 
     /*
         201 CREATED
      */
-    ADD_FAVORITE_SUCCESS(HttpStatus.CREATED, "즐겨찾기 등록 성공");
 
 
     private final HttpStatus httpStatus;
