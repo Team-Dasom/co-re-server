@@ -23,6 +23,11 @@ public enum ErrorCode {
 	GPT_REQUEST_VALUE_EXCEPTION(BAD_REQUEST, "요청 값의 function, content, language가 매칭되지 않거나 문제가 있습니다."),
 
 	/*
+		401 - UNAUTHORIZED
+	 */
+	UNAUTHORIZED_EXCEPTION(UNAUTHORIZED, "JWT 토큰이 존재하지 않거나 유효하지 않습니다."),
+
+	/*
 		403 - FORBIDDEN
 	 */
 	FORBIDDEN_EXCEPTION(FORBIDDEN, "해당 요청에 대한 요청 권한이 존재하지 않습니다."),
