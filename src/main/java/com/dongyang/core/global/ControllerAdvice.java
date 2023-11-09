@@ -76,14 +76,14 @@ public class ControllerAdvice {
     @ExceptionHandler(ValidationException.class)
     protected ApiResponse<Object> handleValidationException(final ValidationException exception) {
         log.error(exception.getMessage(), exception);
-        return ApiResponse.error(VALIDATION_EXCEPTION);
+        return ApiResponse.error(exception.getErrorCode());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(GptRequestValueException.class)
     protected ApiResponse<Object> handleGptRequestValueException(final GptRequestValueException exception) {
         log.error(exception.getMessage(), exception);
-        return ApiResponse.error(GPT_REQUEST_VALUE_EXCEPTION);
+        return ApiResponse.error(exception.getErrorCode());
     }
 
     /**
@@ -93,7 +93,7 @@ public class ControllerAdvice {
     @ExceptionHandler(UnAuthorizedException.class)
     protected ApiResponse<Object> handleUnAuthorizedException(final UnAuthorizedException exception) {
         log.error(exception.getMessage(), exception);
-        return ApiResponse.error(UNAUTHORIZED_EXCEPTION);
+        return ApiResponse.error(exception.getErrorCode());
     }
 
     /**
@@ -103,7 +103,7 @@ public class ControllerAdvice {
     @ExceptionHandler(ForbiddenException.class)
     protected ApiResponse<Object> handleForbiddenException(final ForbiddenException exception) {
         log.error(exception.getMessage(), exception);
-        return ApiResponse.error(FORBIDDEN_EXCEPTION);
+        return ApiResponse.error(exception.getErrorCode());
     }
 
     /**
@@ -113,7 +113,7 @@ public class ControllerAdvice {
     @ExceptionHandler(NotFoundException.class)
     protected ApiResponse<Object> handleNotFoundException(final NotFoundException exception) {
         log.error(exception.getMessage(), exception);
-        return ApiResponse.error(NOT_FOUND_EXCEPTION);
+        return ApiResponse.error(exception.getErrorCode());
     }
 
     /**
@@ -155,14 +155,14 @@ public class ControllerAdvice {
     @ExceptionHandler(BadGatewayException.class)
     protected ApiResponse<Object> handleBadGatewayException(final BadGatewayException exception) {
         log.error(exception.getMessage(), exception);
-        return ApiResponse.error(BAD_GATEWAY_ERROR);
+        return ApiResponse.error(exception.getErrorCode());
     }
 
     @ResponseStatus(HttpStatus.BAD_GATEWAY)
     @ExceptionHandler(WebClientException.class)
     protected ApiResponse<Object> handleWebClientException(final WebClientException exception) {
         log.error(exception.getMessage(), exception);
-        return ApiResponse.error(BAD_GATEWAY_ERROR);
+        return ApiResponse.error(exception.getErrorCode());
     }
 
     /**
