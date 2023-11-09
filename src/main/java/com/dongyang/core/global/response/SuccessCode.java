@@ -24,7 +24,7 @@ public enum SuccessCode {
     /*
         201 CREATED
      */
-    ADD_FAVORITE_SUCCESS(HttpStatus.CREATED, "즐겨찾기 등록 성공");
+    ADD_FAVORITE_SUCCESS(HttpStatus.CREATED, "즐겨찾기 상태 변경 성공");
 
 
     private final HttpStatus httpStatus;

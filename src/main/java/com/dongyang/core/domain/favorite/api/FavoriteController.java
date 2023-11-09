@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class FavoriteController {
     private final FavoriteService favoriteService;
 
-    @Operation(summary = "[인증] 응답 내용 즐겨찾기 추가")
+    @Operation(summary = "[인증] 응답 내용 즐겨찾기 상태 변경")
     @Auth
-    @PostMapping("/favorite/add")
+    @PostMapping("/favorite/stateChange")
     public ApiResponse<String> addFavorite(@MemberId final Long memberId,
                                            @RequestBody final AddFavoriteRequest request) {
         favoriteService.addFavorite(memberId, request);

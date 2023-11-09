@@ -22,6 +22,7 @@ CREATE TABLE `FAVORITE`
     `QUESTION`      text     NOT NULL,
     `ANSWER`        text     NOT NULL,
     `QUESTIONED_AT` datetime NOT NULL,
+    `IS_FAVORITE` boolean NOT NULL,
     `CREATED_AT`    datetime NOT NULL,
     `MODIFIED_AT`   datetime NOT NULL
 );
