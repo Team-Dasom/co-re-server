@@ -1,12 +1,13 @@
 package com.dongyang.core.domain.favorite.repository;
 
 import static com.dongyang.core.domain.favorite.QFavorite.favorite;
-import static com.dongyang.core.domain.member.QMember.member;
 
 import com.dongyang.core.domain.favorite.Favorite;
-import com.dongyang.core.domain.favorite.dto.request.AddFavoriteRequest;
+import com.dongyang.core.domain.favorite.dto.request.ChangeFavoriteStateRequest;
+import com.dongyang.core.domain.gpt.constant.GptFunction;
 import com.dongyang.core.domain.member.Member;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 
@@ -15,7 +16,7 @@ public class FavoriteRepositoryImpl implements FavoriteRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Optional<Favorite> isExistsFavoriteByAllData(Member member, AddFavoriteRequest request) {
+    public Optional<Favorite> isExistsFavoriteByAllData(Member member, ChangeFavoriteStateRequest request) {
         return Optional.ofNullable(queryFactory
                 .selectFrom(favorite)
                 .where(
@@ -26,5 +27,18 @@ public class FavoriteRepositoryImpl implements FavoriteRepositoryCustom {
                 )
                 .fetchOne());
 
+    }
+
+    @Override
+    public List<Favorite> findOrderedFavoritesByMemberAndFunction(Member member, GptFunction function) {
+        return queryFactory
+                .selectFrom(favorite)
+                .where(
+                        favorite.member.eq(member),
+                        favorite.functionType.eq(function),
+                        favorite.isFavorite.eq(true)
+                )
+                .orderBy(favorite.questionedAt.asc())
+                .fetch();
     }
 }

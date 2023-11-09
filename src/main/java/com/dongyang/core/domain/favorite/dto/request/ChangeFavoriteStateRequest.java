@@ -11,7 +11,7 @@ import lombok.Getter;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-public class AddFavoriteRequest {
+public class ChangeFavoriteStateRequest {
 
     @Schema(description = "기능 타입", examples = {"ADD_COMMENT", "RECOMMEND_VARIABLE_NAME", "REFACTOR_CODE"})
     @NotNull(message = "{gpt.function.notNull}")

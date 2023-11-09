@@ -1,7 +1,7 @@
 package com.dongyang.core.domain.favorite.service;
 
 import com.dongyang.core.domain.favorite.Favorite;
-import com.dongyang.core.domain.favorite.dto.request.AddFavoriteRequest;
+import com.dongyang.core.domain.favorite.dto.request.ChangeFavoriteStateRequest;
 import com.dongyang.core.domain.favorite.repository.FavoriteRepository;
 import com.dongyang.core.domain.member.Member;
 import com.dongyang.core.domain.member.repository.MemberRepository;
@@ -18,7 +18,7 @@ public class FavoriteService {
     private final MemberRepository memberRepository;
     private final FavoriteRepository favoriteRepository;
 
-    public void addFavorite(long memberId, AddFavoriteRequest request) {
+    public void addFavorite(long memberId, ChangeFavoriteStateRequest request) {
         Member member = MemberServiceUtils.findMemberById(memberRepository, memberId);
 
         Optional<Favorite> findFavorite = favoriteRepository.isExistsFavoriteByAllData(member, request);

@@ -1,7 +1,8 @@
 package com.dongyang.core.domain.favorite;
 
 import com.dongyang.core.domain.common.BaseEntity;
-import com.dongyang.core.domain.favorite.dto.request.AddFavoriteRequest;
+import com.dongyang.core.domain.favorite.dto.request.ChangeFavoriteStateRequest;
+import com.dongyang.core.domain.favorite.dto.response.FavoriteInfoDto;
 import com.dongyang.core.domain.gpt.constant.GptFunction;
 import com.dongyang.core.domain.member.Member;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -58,7 +59,7 @@ public class Favorite extends BaseEntity {
     private Boolean isFavorite;
 
 
-    public static Favorite newInstance(Member member, AddFavoriteRequest request) {
+    public static Favorite newInstance(Member member, ChangeFavoriteStateRequest request) {
         return Favorite.builder()
                 .member(member)
                 .functionType(request.getFunction())
@@ -66,6 +67,14 @@ public class Favorite extends BaseEntity {
                 .answer(request.getAnswer())
                 .questionedAt(request.getQuestionedAt())
                 .isFavorite(true)
+                .build();
+    }
+
+    public FavoriteInfoDto toInfoDto() {
+        return FavoriteInfoDto.builder()
+                .favoriteId(id)
+                .question(question)
+                .answer(answer)
                 .build();
     }
 
