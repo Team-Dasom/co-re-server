@@ -40,6 +40,7 @@ public enum ErrorCode {
 	 */
 	NOT_FOUND_EXCEPTION(NOT_FOUND, "존재하지 않는 요청입니다."),
 	NOT_FOUND_MEMBER_EXCEPTION(NOT_FOUND, "존재하지 않거나 탈퇴한 유저입니다."),
+	NOT_FOUND_FAVORITE_ERROR(NOT_FOUND, "존재하지 않는 즐겨찾기 데이터입니다."),
 
 	/*
 		405 - METHOD NOT ALLOWED

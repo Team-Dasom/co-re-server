@@ -2,6 +2,8 @@ package com.dongyang.core.domain.favorite.api;
 
 import static com.dongyang.core.global.response.SuccessCode.*;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,5 +33,13 @@ public class FavoriteController {
                                            @RequestBody final AddFavoriteRequest request) {
         favoriteService.addFavorite(memberId, request);
         return ApiResponse.success(ADD_FAVORITE_SUCCESS);
+    }
+
+    @Operation(summary = "[인증] 응답 내용 즐겨찾기 삭제")
+    @Auth
+    @DeleteMapping("/favorite/delete/{favoriteId}")
+    public ApiResponse<String> deleteFavorite(@PathVariable final long favoriteId) {
+        favoriteService.deleteFavorite(favoriteId);
+        return ApiResponse.success(DELETE_FAVORITE_SUCCESS);
     }
 }

@@ -20,14 +20,18 @@ public class FavoriteService {
 
     public void addFavorite(long memberId, AddFavoriteRequest request) {
         Member member = MemberServiceUtils.findMemberById(memberRepository, memberId);
-        Favorite favorite = Favorite.newInstance(member, request);
 
         Optional<Favorite> findFavorite = favoriteRepository.isExistsFavoriteByAllData(member, request);
         if (findFavorite.isPresent()) {
             findFavorite.get().changeFavoriteState();
             return;
         }
-        favoriteRepository.save(favorite);
+
+        favoriteRepository.save(Favorite.newInstance(member, request));
     }
 
+    public void deleteFavorite(long favoriteId) {
+        Favorite favorite = FavoriteServiceUtils.findFavoriteById(favoriteRepository, favoriteId);
+        favoriteRepository.delete(favorite);
+    }
 }
