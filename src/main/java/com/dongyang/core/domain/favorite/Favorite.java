@@ -3,7 +3,7 @@ package com.dongyang.core.domain.favorite;
 import com.dongyang.core.domain.common.BaseEntity;
 import com.dongyang.core.domain.favorite.dto.request.ChangeFavoriteStateRequest;
 import com.dongyang.core.domain.favorite.dto.response.FavoriteInfoDto;
-import com.dongyang.core.domain.gpt.constant.GptFunction;
+import com.dongyang.core.domain.gpt.constant.FunctionType;
 import com.dongyang.core.domain.member.Member;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
@@ -43,7 +43,7 @@ public class Favorite extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "FUNCTION_TYPE", nullable = false, length = 30)
-    private GptFunction functionType;
+    private FunctionType functionType;
 
     @Column(name = "QUESTION", nullable = false)
     private String question;
@@ -62,7 +62,7 @@ public class Favorite extends BaseEntity {
     public static Favorite newInstance(Member member, ChangeFavoriteStateRequest request) {
         return Favorite.builder()
                 .member(member)
-                .functionType(request.getFunction())
+                .functionType(request.getFunctionType())
                 .question(request.getQuestion())
                 .answer(request.getAnswer())
                 .questionedAt(request.getQuestionedAt())
