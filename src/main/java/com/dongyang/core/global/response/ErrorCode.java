@@ -66,7 +66,7 @@ public enum ErrorCode {
 	/*
 		502- BAD GATEWAY
 	 */
-	WEB_CLIENT_BAD_GATEWAY_ERROR(BAD_GATEWAY, "외부 연동 중 에러가 발생하였습니다."),
+	BAD_GATEWAY_ERROR(BAD_GATEWAY, "외부 연동 중 에러가 발생하였습니다."),
 	OAUTH2_BAD_GATEWAY_ERROR(BAD_GATEWAY, "OAuth2 소셜 로그인 연동 중 에러가 발생하였습니다."),
 	GPT_BAD_GATEWAY_ERROR(BAD_GATEWAY, "GPT API 연동 중 에러가 발생하였습니다."),
 

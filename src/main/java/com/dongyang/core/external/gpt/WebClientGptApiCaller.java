@@ -7,7 +7,6 @@ import static com.dongyang.core.domain.gpt.constant.GptConstant.TEMPERATURE;
 import static com.dongyang.core.global.common.constants.message.GptErrorMessage.GPT_INTERLOCK_ERROR_MESSAGE;
 import static com.dongyang.core.global.common.constants.message.GptErrorMessage.WRONG_GPT_ACCESS_ERROR_MESSAGE;
 import static com.dongyang.core.global.common.constants.message.WebClientErrorMessage.WEB_CLIENT_CONNECTION_ERROR_MESSAGE;
-import static com.dongyang.core.global.response.ErrorCode.WEB_CLIENT_BAD_GATEWAY_ERROR;
 import static com.dongyang.core.global.response.ErrorCode.INVALID_GPT_API_INFO_ERROR;
 
 import com.dongyang.core.domain.gpt.constant.GptFunction;
@@ -47,11 +46,11 @@ public class WebClientGptApiCaller implements GptApiCaller {
 
         return webClient.post()
                 .uri(API_URI)
+                .bodyValue(createRequestBody(gptMessages, gptFunction))
                 .headers(headers -> {
                     headers.setContentType(MediaType.APPLICATION_JSON);
                     headers.setBearerAuth(API_KEY);
                 })
-                .bodyValue(createRequestBody(gptMessages, gptFunction))
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, clientResponse ->
                         Mono.error(new ValidationException(WRONG_GPT_ACCESS_ERROR_MESSAGE, INVALID_GPT_API_INFO_ERROR)))
@@ -61,7 +60,7 @@ public class WebClientGptApiCaller implements GptApiCaller {
                 .bodyToMono(GptQuestionResponseDto.class)
                 .doOnError(error -> {
                     throw new WebClientException(WEB_CLIENT_CONNECTION_ERROR_MESSAGE,
-                            ErrorCode.WEB_CLIENT_BAD_GATEWAY_ERROR, error);
+                            ErrorCode.BAD_GATEWAY_ERROR, error);
                 })
                 .block();
     }
