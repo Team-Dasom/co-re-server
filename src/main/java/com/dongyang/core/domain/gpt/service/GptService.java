@@ -59,8 +59,6 @@ public class GptService {
     public GptQuestionResponse solveAlgorithm(GptSolveAlgorithmRequest request) {
         String systemMessageText = String.format(request.getFunction().getSystemRoleMessage(), request.getPlatform());
         List<GptMessage> messages = generateMessages(systemMessageText, request.createUserMessageText());
-        System.out.println(systemMessageText);
-        System.out.println(request.createUserMessageText());
 
         GptQuestionResponseDto gptQuestionResponseDto = gptApiCaller.sendRequest(request.getFunction(), messages);
         return new GptQuestionResponse(parseResponseMessage(gptQuestionResponseDto));
