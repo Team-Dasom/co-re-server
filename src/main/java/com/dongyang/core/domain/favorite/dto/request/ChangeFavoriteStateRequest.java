@@ -14,18 +14,18 @@ import lombok.Getter;
 public class ChangeFavoriteStateRequest {
 
     @Schema(description = "기능 타입", examples = {"ADD_COMMENT", "RECOMMEND_VARIABLE_NAME", "REFACTOR_CODE"})
-    @NotNull(message = "{gpt.function.notNull}")
+    @NotNull(message = "{favorite.functionType.notNull}")
     private FunctionType functionType;
 
     @Schema(description = "요청 내용")
-    @NotBlank(message = "{gpt.content.notBlank}")
+    @NotBlank(message = "{favorite.question.notBlank}")
     private String question;
 
     @Schema(description = "응답 내용")
-    @NotBlank(message = "{gpt.content.notBlank}")
+    @NotBlank(message = "{favorite.answer.notBlank}")
     private String answer;
 
     @Schema(description = "기능 요청 시간")
-    @NotBlank(message = "{gpt.content.notBlank}")
+    @NotNull(message = "{favorite.questionedAt.notNull}")
     private LocalDateTime questionedAt;
 }
