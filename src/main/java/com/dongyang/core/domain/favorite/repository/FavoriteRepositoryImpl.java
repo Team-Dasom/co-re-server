@@ -22,6 +22,7 @@ public class FavoriteRepositoryImpl implements FavoriteRepositoryCustom {
                 .where(
                         favorite.member.eq(member),
                         favorite.question.eq(request.getQuestion()),
+                        favorite.functionType.eq(request.getFunctionType()),
                         favorite.answer.eq(request.getAnswer()),
                         favorite.questionedAt.eq(request.getQuestionedAt())
                 )
