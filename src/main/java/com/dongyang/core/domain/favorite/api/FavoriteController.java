@@ -14,6 +14,7 @@ import com.dongyang.core.global.response.ApiResponse;
 import com.dongyang.core.global.response.SuccessCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,8 +35,8 @@ public class FavoriteController {
     @Operation(summary = "[인증] 응답 내용 즐겨찾기 상태 변경")
     @Auth
     @PostMapping("/favorite/stateChange")
-    public ApiResponse<String> addFavorite(@MemberId final Long memberId,
-                                           @RequestBody final ChangeFavoriteStateRequest request) {
+    public ApiResponse<String> addFavorite(@MemberId Long memberId,
+                                           @RequestBody @Valid ChangeFavoriteStateRequest request) {
         favoriteService.addFavorite(memberId, request);
         return ApiResponse.success(ADD_FAVORITE_SUCCESS);
     }
