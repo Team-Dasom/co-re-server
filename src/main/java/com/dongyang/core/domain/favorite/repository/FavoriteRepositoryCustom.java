@@ -11,4 +11,6 @@ public interface FavoriteRepositoryCustom {
     Optional<Favorite> isExistsFavoriteByAllData(Member member, ChangeFavoriteStateRequest request);
 
     List<Favorite> findOrderedFavoritesByMemberAndFunction(Member member, FunctionType functionType);
+
+    List<Favorite> findFavoriteByIsFavorite(boolean isFavorite);
 }

@@ -27,7 +27,6 @@ public class FavoriteRepositoryImpl implements FavoriteRepositoryCustom {
                         favorite.questionedAt.eq(request.getQuestionedAt())
                 )
                 .fetchOne());
-
     }
 
     @Override
@@ -40,6 +39,16 @@ public class FavoriteRepositoryImpl implements FavoriteRepositoryCustom {
                         favorite.isFavorite.eq(true)
                 )
                 .orderBy(favorite.questionedAt.asc())
+                .fetch();
+    }
+
+    @Override
+    public List<Favorite> findFavoriteByIsFavorite(boolean isFavorite) {
+        return queryFactory
+                .selectFrom(favorite)
+                .where(
+                        favorite.isFavorite.eq(isFavorite)
+                )
                 .fetch();
     }
 }
