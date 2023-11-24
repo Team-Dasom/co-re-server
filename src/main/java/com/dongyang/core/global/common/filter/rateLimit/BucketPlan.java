@@ -14,7 +14,7 @@ public enum BucketPlan {
     //1시간에 3번 사용가능한 무제한 요금제
     MEMBER {
         public Bandwidth getLimit() {
-            return Bandwidth.classic(10, Refill.intervally(10, Duration.ofMinutes(1)));
+            return Bandwidth.classic(5, Refill.intervally(5, Duration.ofMinutes(1)));
         }
     };
 
