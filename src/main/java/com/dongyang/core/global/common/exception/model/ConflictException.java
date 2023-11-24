@@ -7,5 +7,4 @@ public class ConflictException extends CustomException {
     public ConflictException(String message, ErrorCode errorCode) {
         super(message, errorCode);
     }
-
 }

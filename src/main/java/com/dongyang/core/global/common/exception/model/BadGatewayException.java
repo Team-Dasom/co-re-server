@@ -11,5 +11,4 @@ public class BadGatewayException extends CustomException {
 	public BadGatewayException(String message, ErrorCode errorCode) {
 		super(message, errorCode);
 	}
-
 }

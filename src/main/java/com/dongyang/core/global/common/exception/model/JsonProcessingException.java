@@ -9,5 +9,4 @@ public class JsonProcessingException extends CustomException {
 	public JsonProcessingException(String message) {
 		super(message);
 	}
-
 }
