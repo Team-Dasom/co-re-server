@@ -68,6 +68,9 @@ dependencies {
 
 	// Health Check
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+	// Bucket4j
+	implementation group: 'com.github.vladimir-bukhtoyarov', name: 'bucket4j-core', version: '7.0.0'
 }
 
 tasks.named('test') {
