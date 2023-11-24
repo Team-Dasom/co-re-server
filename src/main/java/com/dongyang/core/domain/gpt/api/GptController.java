@@ -8,6 +8,7 @@ import com.dongyang.core.domain.gpt.dto.GptRequest;
 import com.dongyang.core.domain.gpt.dto.GptSolveAlgorithmRequest;
 import com.dongyang.core.domain.gpt.service.GptService;
 import com.dongyang.core.external.gpt.dto.gpt.GptQuestionResponse;
+import com.dongyang.core.global.common.interceptor.auth.Auth;
 import com.dongyang.core.global.response.ApiResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,6 +31,7 @@ public class GptController {
     @Operation(summary = "변수명 추천")
     @PostMapping("/gpt/recommendVariableName")
     @ResponseStatus(HttpStatus.OK)
+    @Auth
     public ApiResponse<GptQuestionResponse> recommendVariableName(@Valid @RequestBody GptRequest request) {
         return ApiResponse.success(RECOMMEND_VARIABLE_NAME_SUCCESS, gptService.recommendVariableName(request));
     }
@@ -37,6 +39,7 @@ public class GptController {
     @Operation(summary = "설명 주석 추가")
     @PostMapping("/gpt/addComment")
     @ResponseStatus(HttpStatus.OK)
+    @Auth
     public ApiResponse<GptQuestionResponse> addComment(@Valid @RequestBody GptRequest request) {
         return ApiResponse.success(ADD_COMMENT_SUCCESS, gptService.addComment(request));
     }
@@ -44,6 +47,7 @@ public class GptController {
     @Operation(summary = "코드 리팩토링")
     @PostMapping("/gpt/refactorCode")
     @ResponseStatus(HttpStatus.OK)
+    @Auth
     public ApiResponse<GptQuestionResponse> refactorCode(@Valid @RequestBody GptRequest request) {
         return ApiResponse.success(REFACTOR_CODE_SUCCESS, gptService.refactorCode(request));
     }
@@ -51,8 +55,8 @@ public class GptController {
     @Operation(summary = "알고리즘 문제 해설[BETA]")
     @PostMapping("/gpt/solveAlgorithm")
     @ResponseStatus(HttpStatus.OK)
+    @Auth
     public ApiResponse<GptQuestionResponse> solveAlgorithm(@Valid @RequestBody GptSolveAlgorithmRequest request) {
         return ApiResponse.success(REFACTOR_CODE_SUCCESS, gptService.solveAlgorithm(request));
     }
-
 }

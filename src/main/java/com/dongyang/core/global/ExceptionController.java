@@ -1,10 +1,27 @@
 package com.dongyang.core.global;
 
-import static com.dongyang.core.global.response.ErrorCode.*;
+import static com.dongyang.core.global.response.ErrorCode.BIND_EXCEPTION;
+import static com.dongyang.core.global.response.ErrorCode.INTERNAL_SERVER_ERROR;
+import static com.dongyang.core.global.response.ErrorCode.INVALID_FORMAT_EXCEPTION;
+import static com.dongyang.core.global.response.ErrorCode.METHOD_ARGUMENT_NOT_VALID_EXCEPTION;
+import static com.dongyang.core.global.response.ErrorCode.METHOD_ARGUMENT_TYPE_MISMATCH_EXCEPTION;
+import static com.dongyang.core.global.response.ErrorCode.METHOD_NOT_ALLOWED_EXCEPTION;
+import static com.dongyang.core.global.response.ErrorCode.UN_SUPPORTED_MEDIA_TYPE_EXCEPTION;
 
-
+import com.dongyang.core.global.common.exception.model.BadGatewayException;
+import com.dongyang.core.global.common.exception.model.ConflictException;
+import com.dongyang.core.global.common.exception.model.ForbiddenException;
+import com.dongyang.core.global.common.exception.model.GptRequestValueException;
+import com.dongyang.core.global.common.exception.model.NotFoundException;
+import com.dongyang.core.global.common.exception.model.RateLimitException;
+import com.dongyang.core.global.common.exception.model.UnAuthorizedException;
+import com.dongyang.core.global.common.exception.model.ValidationException;
+import com.dongyang.core.global.common.exception.model.WebClientException;
+import com.dongyang.core.global.response.ApiResponse;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import java.util.Objects;
-
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
@@ -17,24 +34,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import com.dongyang.core.global.common.exception.model.BadGatewayException;
-import com.dongyang.core.global.common.exception.model.UnAuthorizedException;
-import com.dongyang.core.global.common.exception.model.ConflictException;
-import com.dongyang.core.global.common.exception.model.ForbiddenException;
-import com.dongyang.core.global.common.exception.model.GptRequestValueException;
-import com.dongyang.core.global.common.exception.model.NotFoundException;
-import com.dongyang.core.global.common.exception.model.ValidationException;
-import com.dongyang.core.global.common.exception.model.WebClientException;
-import com.dongyang.core.global.response.ApiResponse;
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
 @Slf4j
 @RequiredArgsConstructor
 @RestControllerAdvice
-public class ControllerAdvice {
+public class ExceptionController {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException.class)
@@ -145,6 +148,17 @@ public class ControllerAdvice {
     protected ApiResponse<Object> handleHttpMediaTypeException(final HttpMediaTypeException exception) {
         log.error(exception.getMessage(), exception);
         return ApiResponse.error(UN_SUPPORTED_MEDIA_TYPE_EXCEPTION);
+    }
+
+    /**
+     * 429 Too Many Requests
+     */
+    @ResponseStatus(HttpStatus.TOO_MANY_REQUESTS)
+    @ExceptionHandler(RateLimitException.class)
+    protected ApiResponse<Object> handleRateLimitException(final RateLimitException exception) {
+        System.out.println("여기여요");
+        log.error(exception.getMessage(), exception);
+        return ApiResponse.error(exception.getErrorCode(), exception.getMessage());
     }
 
     /**

@@ -1,7 +1,9 @@
 package com.dongyang.core.global.common.exception.model;
 
 import com.dongyang.core.global.response.ErrorCode;
+import lombok.Getter;
 
+@Getter
 public class CustomException extends RuntimeException {
     private ErrorCode errorCode;
 
@@ -23,11 +25,12 @@ public class CustomException extends RuntimeException {
         this.errorCode = errorCode;
     }
 
-    public CustomException(String message) {
-        super(message);
+    public CustomException(ErrorCode errorCode) {
+        super(errorCode.getMessage());
+        this.errorCode = errorCode;
     }
 
-    public ErrorCode getErrorCode() {
-        return errorCode;
+    public CustomException(String message) {
+        super(message);
     }
 }
