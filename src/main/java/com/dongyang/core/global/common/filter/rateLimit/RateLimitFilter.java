@@ -39,19 +39,20 @@ public class RateLimitFilter implements Filter {
         }
 
         //authorizationHeader가 있는 경우 JWT AccessToken이 정상적인 경우 token을 사용
-
         String accessToken = authorizationHeader.substring("Bearer ".length());
         if (jwtUtils.validateToken(accessToken)) {
             Long memberId = jwtUtils.getMemberIdFromJwt(accessToken);
             Member member = MemberServiceUtils.findMemberById(memberRepository, memberId);
             //관리자 계정이면 Token 사용X
             if(member.getRole() == MemberRole.ADMIN) {
+                log.info("MemberRole이 ADMIN이기 때문에 토큰이 소모되지 않았습니다.");
                 chain.doFilter(request, response);
                 return;
             }
 
             Bucket memberBucket = bucketProvider.getBucket(member);
             if (!memberBucket.tryConsume(1)) {
+                log.error(String.format("회원ID(%d)의 잔여 토큰이 존재하지 않습니다.", memberId));
                 throw new RateLimitException(ErrorCode.TOKEN_NOT_EXIST_EXCEPTION);
             }
             log.info(String.format("회원ID(%d)의 토큰 사용 : 잔여 토큰(%d)", memberId, memberBucket.getAvailableTokens()));
