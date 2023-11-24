@@ -6,6 +6,7 @@ import com.dongyang.core.global.common.exception.model.IllegalArgumentException;
 import com.dongyang.core.global.common.exception.model.RateLimitException;
 import com.dongyang.core.global.response.ApiResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,7 +23,7 @@ import org.springframework.stereotype.Component;
 @Order(Integer.MIN_VALUE)
 @Slf4j
 public class ExceptionHandlerFilter implements Filter {
-    ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
