@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Order(Integer.MIN_VALUE)
 @Slf4j
-public class ExceptionFilter implements Filter {
+public class ExceptionHandlerFilter implements Filter {
     ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
