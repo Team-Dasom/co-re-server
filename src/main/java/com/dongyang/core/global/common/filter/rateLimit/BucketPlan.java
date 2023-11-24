@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum BucketPlan {
-    //1시간에 3번 사용가능한 무제한 요금제
+    // 총 5개의 토큰, 1분마다 5개의 토큰 충전
     MEMBER {
         public Bandwidth getLimit() {
             return Bandwidth.classic(5, Refill.intervally(5, Duration.ofMinutes(1)));
