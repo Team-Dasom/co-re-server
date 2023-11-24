@@ -7,5 +7,4 @@ public class ForbiddenException extends CustomException {
 	public ForbiddenException(String message, ErrorCode errorCode) {
 		super(message, errorCode);
 	}
-
 }
