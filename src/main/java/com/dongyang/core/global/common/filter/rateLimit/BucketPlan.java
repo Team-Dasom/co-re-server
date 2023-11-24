@@ -27,5 +27,4 @@ public enum BucketPlan {
                 .orElseThrow(() -> new IllegalArgumentException(ErrorCode.NOT_EXIST_MEMBER_ROLE))
                 .getLimit();
     }
-
 }
