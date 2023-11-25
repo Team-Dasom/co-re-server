@@ -4,21 +4,16 @@ import com.dongyang.core.domain.member.Member;
 import com.dongyang.core.domain.member.MemberRole;
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;
-import jakarta.annotation.PostConstruct;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class RateLimitBucketProvider {
-    private Map<Long, Bucket> buckets;
+    private Map<Long, Bucket> buckets = new ConcurrentHashMap<>();
 
-    @PostConstruct
-    void initializeBuckets() {
-        buckets = new HashMap<>();
-    }
 
     public Bucket getBucket(Member member) {
         long memberId = member.getId();
