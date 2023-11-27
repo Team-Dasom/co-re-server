@@ -151,17 +151,6 @@ public class ExceptionController {
     }
 
     /**
-     * 429 Too Many Requests
-     */
-    @ResponseStatus(HttpStatus.TOO_MANY_REQUESTS)
-    @ExceptionHandler(RateLimitException.class)
-    protected ApiResponse<Object> handleRateLimitException(final RateLimitException exception) {
-        System.out.println("여기여요");
-        log.error(exception.getMessage(), exception);
-        return ApiResponse.error(exception.getErrorCode(), exception.getMessage());
-    }
-
-    /**
      * 502 Bad Gateway
      */
     //TODO: Slack Or Discord 알림 처리

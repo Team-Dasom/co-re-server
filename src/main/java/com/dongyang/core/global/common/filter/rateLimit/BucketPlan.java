@@ -7,9 +7,7 @@ import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Refill;
 import java.time.Duration;
 import java.util.Arrays;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
 public enum BucketPlan {
     // 총 5개의 토큰, 1분마다 5개의 토큰 충전
     MEMBER {
