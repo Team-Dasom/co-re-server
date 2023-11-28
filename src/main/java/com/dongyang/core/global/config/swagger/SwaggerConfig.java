@@ -1,7 +1,9 @@
 package com.dongyang.core.global.config.swagger;
 
+import io.swagger.v3.oas.models.servers.Server;
 import java.util.Arrays;
 
+import java.util.List;
 import org.springdoc.core.utils.SpringDocUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +24,9 @@ public class SwaggerConfig {
 
 	@Bean
 	public OpenAPI openAPI() {
+		Server serverLocal = createServer("http://localhost:8080", "for local usages");
+		Server serverDev = createServer("https://core.pe.kr", "for dev usages");
+
 		Info info = new Info()
 			.title(TITLE)
 			.description(DESCRIPTION)
@@ -33,12 +38,21 @@ public class SwaggerConfig {
 		SecurityRequirement securityRequirement = new SecurityRequirement().addList("Bearer Token");
 
 		return new OpenAPI()
-			.components(new Components().addSecuritySchemes("Bearer Token", securityScheme))
-			.security(Arrays.asList(securityRequirement))
-			.info(info);
+				.components(new Components().addSecuritySchemes("Bearer Token", securityScheme))
+				.security(Arrays.asList(securityRequirement))
+				.servers(List.of(serverLocal, serverDev))
+				.info(info);
 	}
 
 	static {
 		SpringDocUtils.getConfig().addAnnotationsToIgnore(MemberId.class);
+	}
+
+	private Server createServer(String url, String description) {
+		Server server = new Server();
+		server.setUrl(url);
+		server.setDescription(description);
+
+		return server;
 	}
 }
