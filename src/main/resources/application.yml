@@ -18,13 +18,13 @@ gpt:
     refactor-code: ${GPT_REFACTOR_CODE_MODEL}
 
 springdoc:
-  default-consumes-media-type: application/json
-  default-produces-media-type: application/json
+  packages-to-scan: com.dongyang.core
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
   swagger-ui:
-    operationsSorter: alpha
-    tagsSorter: alpha
-    path: /swagger-ui.html
-    disable-swagger-default-url: true
-    docExpansion: none
-  paths-to-match:
-    - /api/**
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /api-docs/json
+    groups:
+      enabled: true
