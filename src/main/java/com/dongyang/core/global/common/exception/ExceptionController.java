@@ -1,4 +1,4 @@
-package com.dongyang.core.global;
+package com.dongyang.core.global.common.exception;
 
 import static com.dongyang.core.global.response.ErrorCode.BIND_EXCEPTION;
 import static com.dongyang.core.global.response.ErrorCode.INTERNAL_SERVER_ERROR;
