@@ -23,51 +23,45 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-	private final static int MAX_AGE_SECS = 3600;
+    private final static int MAX_AGE_SECS = 3600;
 
-	private final AdminInterceptor adminInterceptor;
-	private final AuthInterceptor authInterceptor;
-	private final MemberIdResolver memberIdResolver;
+    private final AdminInterceptor adminInterceptor;
+    private final AuthInterceptor authInterceptor;
+    private final MemberIdResolver memberIdResolver;
 
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(adminInterceptor);
-		registry.addInterceptor(authInterceptor);
-	}
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(adminInterceptor);
+        registry.addInterceptor(authInterceptor);
+    }
 
-	@Override
-	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-		resolvers.add(memberIdResolver);
-	}
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(memberIdResolver);
+    }
 
-	@Bean
-	public MessageSource validationMessageSource() {
-		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource.setBasename("classpath:/messages/validation");
-		messageSource.setDefaultEncoding("UTF-8");
-		return messageSource;
-	}
+    @Bean
+    public MessageSource validationMessageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasename("classpath:/messages/validation");
+        messageSource.setDefaultEncoding("UTF-8");
+        return messageSource;
+    }
 
-	@Override
-	public Validator getValidator() {
-		LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
-		bean.setValidationMessageSource(validationMessageSource());
-		return bean;
-	}
+    @Override
+    public Validator getValidator() {
+        LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();
+        bean.setValidationMessageSource(validationMessageSource());
+        return bean;
+    }
 
-	@Override
-	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**")
-			.allowedOrigins("http://localhost:3000", "http://52.79.37.140")
-			.allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-			.allowedHeaders("*")
-			.allowCredentials(true) // Authorization 인증 헤더 허용
-			.maxAge(MAX_AGE_SECS);
-
-		registry.addMapping("/api/v1/auth/**")
-			.allowedOrigins("*")
-			.allowedMethods("POST", "GET")
-			.allowedHeaders("*")
-			.maxAge(MAX_AGE_SECS);
-	}
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOriginPatterns("*")
+                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(true) // Authorization 인증 헤더 허용
+                .maxAge(MAX_AGE_SECS);
+    }
 }
