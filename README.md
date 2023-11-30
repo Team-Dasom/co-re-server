@@ -62,10 +62,11 @@ http://13.125.151.72/swagger-ui/index.html
 
 ### Infra
 - AWS EC2
+- AWS ELB
 - AWS RDS
 - AWS ElastiCache
 - AWS IAM
-- AWS SecretsManager
+- AWS Route53
 
 ### Local
 - Docker
