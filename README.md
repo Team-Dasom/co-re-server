@@ -32,12 +32,13 @@ GPT API를 활용하여 개발자들이 필요로 하는 기능을 간단한 입
 
 ## 🗺️ 아키텍쳐.
 
-![제목 없는 다이어그램 (2)](https://github.com/Team-Dasom/co-re-server/assets/84304802/b248ecda-b3f7-4690-9345-0b309ce8300b)
+![백엔드](https://github.com/Team-Dasom/co-re-server/assets/84304802/e88b0e37-2c98-40a9-b23f-723c466272bb)
+
 
 ---
 
 ## 📋 API Docs.
-http://13.125.151.72/swagger-ui/index.html
+http://core.pe.kr/swagger-ui/index.html
 
 <br>
 
