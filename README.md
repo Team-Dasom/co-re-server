@@ -45,14 +45,15 @@ http://core.pe.kr/swagger-ui/index.html
 ---
 
 ## 🛠️ 사용 기술.
-- SpringBoot 3.x
+### Server
+- SpringBoot 3.0.6
 - Java 17
-- ORM
-  - JPA
-  - QueryDSL
 - Nginx
+- Spring Data JPA
+- QueryDSL
 - JWT
 - Springdoc Swagger
+- Bucket4j
 
 ### AI Model
 - GPT 3.5 Turbo
