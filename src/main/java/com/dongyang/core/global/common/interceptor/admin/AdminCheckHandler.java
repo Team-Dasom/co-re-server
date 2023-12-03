@@ -9,7 +9,7 @@ import org.springframework.util.StringUtils;
 import com.dongyang.core.domain.member.Member;
 import com.dongyang.core.domain.member.repository.MemberRepository;
 import com.dongyang.core.domain.member.MemberRole;
-import com.dongyang.core.domain.member.service.MemberServiceUtils;
+import com.dongyang.core.api.member.service.MemberServiceUtils;
 import com.dongyang.core.global.common.exception.model.ForbiddenException;
 import com.dongyang.core.global.common.utils.JwtUtils;
 

@@ -1,17 +1,17 @@
 package com.dongyang.core.external.gpt;
 
-import static com.dongyang.core.domain.gpt.constant.GptConstant.MAX_TOKENS;
-import static com.dongyang.core.domain.gpt.constant.GptConstant.MESSAGES;
-import static com.dongyang.core.domain.gpt.constant.GptConstant.MODEL;
-import static com.dongyang.core.domain.gpt.constant.GptConstant.TEMPERATURE;
+import static com.dongyang.core.external.gpt.constant.GptConstant.MAX_TOKENS;
+import static com.dongyang.core.external.gpt.constant.GptConstant.MESSAGES;
+import static com.dongyang.core.external.gpt.constant.GptConstant.MODEL;
+import static com.dongyang.core.external.gpt.constant.GptConstant.TEMPERATURE;
 import static com.dongyang.core.global.common.constants.message.GptErrorMessage.GPT_INTERLOCK_ERROR_MESSAGE;
 import static com.dongyang.core.global.common.constants.message.GptErrorMessage.WRONG_GPT_ACCESS_ERROR_MESSAGE;
 import static com.dongyang.core.global.common.constants.message.WebClientErrorMessage.WEB_CLIENT_CONNECTION_ERROR_MESSAGE;
 import static com.dongyang.core.global.response.ErrorCode.INVALID_GPT_API_INFO_ERROR;
 
-import com.dongyang.core.domain.gpt.constant.GptFunction;
-import com.dongyang.core.external.gpt.dto.gpt.GptMessage;
-import com.dongyang.core.external.gpt.dto.gpt.GptQuestionResponseDto;
+import com.dongyang.core.external.gpt.constant.GptFunction;
+import com.dongyang.core.external.gpt.vo.GptMessage;
+import com.dongyang.core.external.gpt.vo.GptQuestionResponseDto;
 import com.dongyang.core.global.common.exception.model.BadGatewayException;
 import com.dongyang.core.global.common.exception.model.ValidationException;
 import com.dongyang.core.global.common.exception.model.WebClientException;

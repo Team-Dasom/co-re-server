@@ -1,9 +1,9 @@
 package com.dongyang.core.domain.favorite;
 
 import com.dongyang.core.domain.common.BaseEntity;
-import com.dongyang.core.domain.favorite.dto.request.ChangeFavoriteStateRequest;
-import com.dongyang.core.domain.favorite.dto.response.FavoriteInfoDto;
-import com.dongyang.core.domain.gpt.constant.FunctionType;
+import com.dongyang.core.api.favorite.dto.request.ChangeFavoriteStateRequest;
+import com.dongyang.core.api.favorite.dto.response.FavoriteInfoDto;
+import com.dongyang.core.external.gpt.constant.FunctionType;
 import com.dongyang.core.domain.member.Member;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;

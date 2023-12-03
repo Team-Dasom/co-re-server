@@ -3,8 +3,8 @@ package com.dongyang.core.domain.favorite.repository;
 import static com.dongyang.core.domain.favorite.QFavorite.favorite;
 
 import com.dongyang.core.domain.favorite.Favorite;
-import com.dongyang.core.domain.favorite.dto.request.ChangeFavoriteStateRequest;
-import com.dongyang.core.domain.gpt.constant.FunctionType;
+import com.dongyang.core.api.favorite.dto.request.ChangeFavoriteStateRequest;
+import com.dongyang.core.external.gpt.constant.FunctionType;
 import com.dongyang.core.domain.member.Member;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;

@@ -1,8 +1,8 @@
 package com.dongyang.core.domain.favorite.repository;
 
 import com.dongyang.core.domain.favorite.Favorite;
-import com.dongyang.core.domain.favorite.dto.request.ChangeFavoriteStateRequest;
-import com.dongyang.core.domain.gpt.constant.FunctionType;
+import com.dongyang.core.api.favorite.dto.request.ChangeFavoriteStateRequest;
+import com.dongyang.core.external.gpt.constant.FunctionType;
 import com.dongyang.core.domain.member.Member;
 import java.util.List;
 import java.util.Optional;
