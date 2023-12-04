@@ -2,6 +2,8 @@ package com.dongyang.core.api.auth;
 
 import static com.dongyang.core.global.response.SuccessCode.*;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,41 +32,60 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1")
 public class AuthController {
 
-	private final AuthServiceProvider authServiceProvider;
-	private final CreateTokenService createTokenService;
-	private final CommonAuthService commonAuthService;
+    private final AuthServiceProvider authServiceProvider;
+    private final CreateTokenService createTokenService;
+    private final CommonAuthService commonAuthService;
 
-	@Operation(summary = "OAuth2 소셜 회원가입")
-	@PostMapping("/auth/signup")
-	public ApiResponse<TokenResponse> signUp(@Valid @RequestBody SignUpRequest request) {
-		AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
-		Long memberId = authService.signUp(request);
-		TokenResponse tokenInfo = createTokenService.createTokenInfo(memberId);
-		return ApiResponse.success(OAUTH_LOGIN_SUCCESS, tokenInfo);
-	}
+    @Operation(summary = "OAuth2 소셜 회원가입")
+    @PostMapping("/auth/signup")
+    public ApiResponse<TokenResponse> signUp(@Valid @RequestBody SignUpRequest request, HttpServletResponse response) {
+        AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
+        Long memberId = authService.signUp(request);
 
-	@Operation(summary = "OAuth2 소셜 로그인")
-	@PostMapping("/auth/login")
-	public ApiResponse<TokenResponse> login(@Valid @RequestBody LoginRequest request) {
-		AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
-		Long memberId = authService.login(request);
-		TokenResponse tokenInfo = createTokenService.createTokenInfo(memberId);
-		return ApiResponse.success(OAUTH_LOGIN_SUCCESS, tokenInfo);
-	}
+        addTokensToCookie(createTokenService.createTokenInfo(memberId), response);
+
+        return ApiResponse.success(OAUTH_LOGIN_SUCCESS);
+    }
+
+    @Operation(summary = "OAuth2 소셜 로그인")
+    @PostMapping("/auth/login")
+    public ApiResponse<TokenResponse> login(@Valid @RequestBody LoginRequest request, HttpServletResponse response) {
+        AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
+        Long memberId = authService.login(request);
+
+        addTokensToCookie(createTokenService.createTokenInfo(memberId), response);
+        
+        return ApiResponse.success(OAUTH_LOGIN_SUCCESS);
+    }
 
 
-	@Operation(summary = "[인증] 로그아웃")
-	@Auth
-	@PostMapping("/auth/logout")
-	public ApiResponse<String> logout(@MemberId Long memberId) {
-		commonAuthService.logout(memberId);
+    @Operation(summary = "[인증] 로그아웃")
+    @Auth
+    @PostMapping("/auth/logout")
+    public ApiResponse<String> logout(@MemberId Long memberId) {
+        commonAuthService.logout(memberId);
 
-		return ApiResponse.success(LOGOUT_SUCCESS);
-	}
+        return ApiResponse.success(LOGOUT_SUCCESS);
+    }
 
-	@Operation(summary = "JWT 토큰 갱신")
-	@PostMapping("/auth/reissue")
-	public ApiResponse<TokenResponse> reissue(@Valid @RequestBody TokenRequest request) {
-		return ApiResponse.success(JWT_TOKEN_REISSUE_SUCCESS, createTokenService.reissueToken(request));
-	}
+    @Operation(summary = "JWT 토큰 갱신")
+    @PostMapping("/auth/reissue")
+    public ApiResponse<TokenResponse> reissue(@Valid @RequestBody TokenRequest request, HttpServletResponse response) {
+        addTokensToCookie(createTokenService.reissueToken(request), response);
+
+        return ApiResponse.success(JWT_TOKEN_REISSUE_SUCCESS);
+    }
+
+    private void addTokensToCookie(TokenResponse tokenInfo, HttpServletResponse response) {
+        addTokenToCookie("accessToken", tokenInfo.getAccessToken(), response);
+        addTokenToCookie("refreshToken", tokenInfo.getAccessToken(), response);
+    }
+
+    private void addTokenToCookie(String cookieName, String token, HttpServletResponse response) {
+        Cookie cookie = new Cookie(cookieName, token);
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+
+        response.addCookie(cookie);
+    }
 }
