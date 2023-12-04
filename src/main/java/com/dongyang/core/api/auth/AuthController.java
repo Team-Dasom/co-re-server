@@ -78,7 +78,7 @@ public class AuthController {
 
     private void addTokensToCookie(TokenResponse tokenInfo, HttpServletResponse response) {
         addTokenToCookie("accessToken", tokenInfo.getAccessToken(), response);
-        addTokenToCookie("refreshToken", tokenInfo.getAccessToken(), response);
+        addTokenToCookie("refreshToken", tokenInfo.getRefreshToken(), response);
     }
 
     private void addTokenToCookie(String cookieName, String token, HttpServletResponse response) {
