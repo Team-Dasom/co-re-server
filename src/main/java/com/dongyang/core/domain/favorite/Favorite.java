@@ -6,6 +6,7 @@ import com.dongyang.core.api.favorite.dto.response.FavoriteInfoDto;
 import com.dongyang.core.external.gpt.constant.FunctionType;
 import com.dongyang.core.domain.member.Member;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -37,7 +38,7 @@ public class Favorite extends BaseEntity {
     @Column(name = "FAVORITE_ID")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "MEMBER_ID", nullable = false)
     private Member member;
 
