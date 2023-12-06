@@ -22,11 +22,11 @@ if [ ! -z ${TARGET_PID} ]; then
 fi
 
 if [ ${HOST_NAME} == "core-prod-server" ]; then
-  nohup java -jar -Dserver.port=${TARGET_PORT} -Duser.timezone=Asia/Seoul -Dspring.profiles.active=prod /home/ubuntu/api-server/*.jar &
+  nohup java -jar -Dserver.port=${TARGET_PORT} -Duser.timezone=Asia/Seoul -Dspring.profiles.active=prod /home/ubuntu/api-server/*.jar
   echo "[$NOW_TIME] Now new WAS runs at ${TARGET_PORT}."
   exit 0
 else
-  nohup java -jar -Dserver.port=${TARGET_PORT} -Duser.timezone=Asia/Seoul -Dspring.profiles.active=dev /home/ubuntu/api-server/*.jar &
+  nohup java -jar -Dserver.port=${TARGET_PORT} -Duser.timezone=Asia/Seoul -Dspring.profiles.active=dev /home/ubuntu/api-server/*.jar
   echo "[$NOW_TIME] Now new WAS runs at ${TARGET_PORT}."
   exit 0
 fi
