@@ -1,0 +1,86 @@
+name: API Server Java CD with Gradle on DEV
+
+# develop 브랜치에 push 시에 동작
+on:
+  push:
+    branches: [ "develop" ]
+
+env:
+  S3_BUCKET_NAME: codere-s3
+
+jobs:
+  build:
+    name: Code deployment
+
+    # 실행 환경
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1) 워크플로우 실행 전 기본적으로 체크아웃 필요
+      - name: checkout
+        uses: actions/checkout@v3
+
+      # 2) JDK 11버전 설치, 다른 JDK 버전을 사용하다면 수정
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+
+      # 3) application.yml 세팅
+      - name: setting application.yml
+        run: |
+          cd ./src/main/resources # resources 폴더로 이동
+          echo "${{ secrets.APPLICATION_YML }}" > ./application.yml
+          echo "${{ secrets.APPLICATION_DEV_YML }}" > ./application-dev.yml
+        shell: bash
+
+      # 4) build
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle # 실제 application build(-x 옵션을 통해 테스트는 제외)
+        run: ./gradlew clean build -x test
+
+      # 5) 배포 파일을 담을 디렉토리 생성
+      - name: Make Directory
+        run: mkdir -p deploy
+
+      # 6) Jar 파일 복사
+      - name: Copy Jar
+        run: cp ./build/libs/*.jar ./deploy
+
+      # 7) appspec.yml, script files 복사
+      - name: Copy files
+        run: cp ./scripts/* ./deploy
+
+      # 8) 배포 압축 파일 생성
+      - name: Make zip file
+        run: zip -r ./core.zip ./deploy
+        shell: bash
+
+      # 9) S3에 배포 압축 파일 업로드
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_DEV }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY_DEV }}
+          aws-region: ap-northeast-2
+
+      - name: Upload to S3
+        run: aws s3 cp --region ap-northeast-2 ./core.zip s3://$S3_BUCKET_NAME/
+
+      # Deploy
+      - name: Deploy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_DEV }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY_DEV }}
+        run:
+          aws deploy create-deployment
+          --application-name core-codeDeploy
+          --deployment-group-name API_SERVER
+          --file-exists-behavior OVERWRITE
+          --s3-location bucket=codere-s3,bundleType=zip,key=core.zip
+          --region ap-northeast-2
+
+
