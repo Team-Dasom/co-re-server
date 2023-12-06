@@ -80,7 +80,7 @@ jobs:
           --application-name core-codeDeploy
           --deployment-group-name API_SERVER
           --file-exists-behavior OVERWRITE
-          --s3-location bucket=codere-s3,bundleType=zip,key=core.zip
+          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=core.zip
           --region ap-northeast-2
 
 
