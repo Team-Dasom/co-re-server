@@ -1,5 +1,7 @@
 package com.dongyang.core.api.auth.service.impl;
 
+import com.dongyang.core.api.auth.dto.response.TokenResponse;
+import com.dongyang.core.api.auth.service.CreateTokenService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,18 +28,22 @@ public class GithubAuthService implements AuthService {
 	private final MemberRepository memberRepository;
 
 	private final MemberService memberService;
+	private final CreateTokenService createTokenService;
 
 	@Override
-	public Long signUp(SignUpRequest request) {
+	public TokenResponse signUp(SignUpRequest request) {
 		GithubProfileResponse response = githubApiCaller.getProfileInfo(request.getToken());
-		return memberService.registerMember(request.toCreateMemberDto(response));
+		Long memberId = memberService.registerMember(request.toCreateMemberDto(response));
+
+		return createTokenService.createTokenInfo(memberId);
 	}
 
 	@Override
-	public Long login(LoginRequest request) {
+	public TokenResponse login(LoginRequest request) {
 		GithubProfileResponse response = githubApiCaller.getProfileInfo(request.getToken());
 		Member member = MemberServiceUtils.findMemberBySocialIdAndSocialType(memberRepository, response.getId(),
 			MemberSocialType.GITHUB);
-		return member.getId();
+
+		return createTokenService.createTokenInfo(member.getId());
 	}
 }
