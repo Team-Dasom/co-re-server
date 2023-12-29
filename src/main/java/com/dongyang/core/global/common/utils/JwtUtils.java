@@ -1,19 +1,13 @@
 package com.dongyang.core.global.common.utils;
 
-import static com.dongyang.core.global.common.constants.message.AuthErrorMessage.*;
-
-import java.security.Key;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
+import static com.dongyang.core.global.common.constants.message.AuthErrorMessage.EMPTY_CLAIMS_JWT_TOKEN_ERROR_MESSAGE;
+import static com.dongyang.core.global.common.constants.message.AuthErrorMessage.EXPIRED_JWT_TOKEN_ERROR_MESSAGE;
+import static com.dongyang.core.global.common.constants.message.AuthErrorMessage.INVALID_JWT_TOKEN_ERROR_MESSAGE;
+import static com.dongyang.core.global.common.constants.message.AuthErrorMessage.UNHANDLED_JWT_TOKEN_ERROR_MESSAGE;
+import static com.dongyang.core.global.common.constants.message.AuthErrorMessage.UNSUPPORTED_JWT_TOKEN_ERROR_MESSAGE;
 
 import com.dongyang.core.global.common.constants.auth.JwtKey;
 import com.dongyang.core.global.common.constants.auth.RedisKey;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -23,7 +17,14 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.DecodingException;
 import io.jsonwebtoken.security.Keys;
+import java.security.Key;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j

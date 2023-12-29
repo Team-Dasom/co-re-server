@@ -33,27 +33,27 @@ import lombok.RequiredArgsConstructor;
 public class AuthController {
 
     private final AuthServiceProvider authServiceProvider;
-    private final CreateTokenService createTokenService;
     private final CommonAuthService commonAuthService;
+    private final CreateTokenService createTokenService;
+
 
     @Operation(summary = "OAuth2 소셜 회원가입")
     @PostMapping("/auth/signup")
-    public ApiResponse<TokenResponse> signUp(@Valid @RequestBody SignUpRequest request, HttpServletResponse response) {
+    public ApiResponse<Void> signUp(@Valid @RequestBody SignUpRequest request, HttpServletResponse response) {
         AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
-        Long memberId = authService.signUp(request);
+        TokenResponse tokenInfo = authService.signUp(request);
 
-        addTokensToCookie(createTokenService.createTokenInfo(memberId), response);
+        addTokensToCookie(tokenInfo, response);
 
         return ApiResponse.success(OAUTH_LOGIN_SUCCESS);
     }
 
     @Operation(summary = "OAuth2 소셜 로그인")
     @PostMapping("/auth/login")
-    public ApiResponse<TokenResponse> login(@Valid @RequestBody LoginRequest request, HttpServletResponse response) {
+    public ApiResponse<Void> login(@Valid @RequestBody LoginRequest request, HttpServletResponse response) {
         AuthService authService = authServiceProvider.getAuthService(request.getSocialType());
-        Long memberId = authService.login(request);
-
-        addTokensToCookie(createTokenService.createTokenInfo(memberId), response);
+        TokenResponse tokenInfo = authService.login(request);
+        addTokensToCookie(tokenInfo, response);
         
         return ApiResponse.success(OAUTH_LOGIN_SUCCESS);
     }
